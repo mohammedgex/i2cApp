@@ -3,7 +3,6 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/features/cart/view/cart_view.dart';
 import 'package:skill_grow/features/course/view/wish_list_view.dart';
 
@@ -14,241 +13,154 @@ import '../icons/app_icon.dart';
 import '../images/app_image.dart';
 
 class MyCustomAppBar extends StatelessWidget {
+  MyCustomAppBar({
+    super.key,
+    this.horizontalPadding,
+    this.verticalPadding,
+    this.isShowbackButton = false,
+    this.isShowNotification = true,
+    this.isShowMenu = false,
+  });
+
   final double? horizontalPadding;
   final double? verticalPadding;
   final bool isShowbackButton;
   final bool? isShowNotification;
   final bool isShowMenu;
-
-  MyCustomAppBar(
-      {super.key,
-      this.horizontalPadding,
-      this.verticalPadding,
-      this.isShowbackButton = false,
-      this.isShowNotification = true,
-      this.isShowMenu = false});
-  MultiLangualDataController multiLangualDataController =
+  final MultiLangualDataController multiLangualDataController =
       Get.put(MultiLangualDataController());
-
-  CartListController cartListController = Get.put(CartListController());
+  final CartListController cartListController = Get.put(CartListController());
 
   @override
   Widget build(BuildContext context) {
+    final textDirection = multiLangualDataController.isLTR.value
+        ? TextDirection.ltr
+        : TextDirection.rtl;
+
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding ?? 15.sp,
-          vertical: (verticalPadding ?? 0.sp) + 8.sp),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.scaffoldBackgroundColor,
-            AppColors.scaffoldBackgroundColor.withOpacity(0.95),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadowColorLight,
-            blurRadius: 8.sp,
-            offset: Offset(0, 2.sp),
+      height: 72.h + (verticalPadding ?? 0),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding ?? 16.w),
+      color: AppColors.scaffoldBackgroundColor,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            left: 140.w,
+            right: 70.w,
+            child: Center(
+              child: Image.asset(
+                AppImage.logo,
+                width: 140.w,
+                height: 44.h,
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
+          Align(
+            alignment: textDirection == TextDirection.ltr
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (isShowMenu)
+                  _iconButton(
+                    icon: Icons.menu_rounded,
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                  ),
+                if (isShowbackButton)
+                  _iconButton(
+                    icon: Icons.arrow_back_ios_new_rounded,
+                    onTap: Get.back,
+                  ),
+              ],
+            ),
+          ),
+          if (isShowNotification == true)
+            Align(
+              alignment: textDirection == TextDirection.ltr
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _iconButton(
+                    iconAsset: AppIcon.addwishIcon,
+                    onTap: () => Get.to(() => WishListView()),
+                  ),
+                  SizedBox(width: 8.w),
+                  _iconButton(
+                    iconAsset: AppIcon.cartIcon,
+                    onTap: () => Get.to(() => CartView()),
+                    badge: Obx(() {
+                      if (cartListController.isLoading.value) {
+                        return const SizedBox.shrink();
+                      }
+                      return Text(
+                        cartListController.cartData.value.cartCourses.length
+                            .toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 8.sp,
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
-      child: Row(
-        textDirection: multiLangualDataController.isLTR.value
-            ? TextDirection.ltr
-            : TextDirection.rtl,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (isShowMenu)
-            Builder(
-              builder: (context) => Bounceable(
-                onTap: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                child: Container(
-                  height: 48.sp,
-                  width: 48.sp,
-                  decoration: BoxDecoration(
-                      // color: AppColors.cardBackgroundColor,
-                      // shape: BoxShape.circle,
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: AppColors.shadowColorLight,
-                      //     blurRadius: 8.sp,
-                      //     offset: Offset(0, 2.sp),
-                      //   ),
-                      // ],
-                      ),
-                  child: Center(
-                    child: Icon(
-                      Icons.menu,
-                      size: 30,
+    );
+  }
+
+  Widget _iconButton({
+    IconData? icon,
+    String? iconAsset,
+    required VoidCallback onTap,
+    Widget? badge,
+  }) {
+    return Bounceable(
+      onTap: onTap,
+      child: Container(
+        width: 46.w,
+        height: 46.w,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: AppColors.cardBackgroundColor,
+          borderRadius: BorderRadius.circular(11.r),
+          border: Border.all(color: AppColors.textFieldBorderColor),
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Center(
+              child: iconAsset != null
+                  ? SvgPicture.asset(
+                      iconAsset,
+                      width: 23.sp,
+                      height: 23.sp,
                       color: AppColors.primaryColor,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          if (isShowMenu) horizontalGap(10.sp),
-          if (isShowbackButton)
-            Bounceable(
-              onTap: () {
-                Get.back();
-              },
-              child: Container(
-                height: 44.sp,
-                width: 44.sp,
-                decoration: BoxDecoration(
-                  color: AppColors.cardBackgroundColor,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.shadowColorLight,
-                      blurRadius: 8.sp,
-                      offset: Offset(0, 2.sp),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    AppIcon.arrowBackIcon,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-              ),
-            ),
-          if (isShowbackButton) horizontalGap(10.sp),
-          if (isShowNotification == false) horizontalGap(100.sp),
-          Image.asset(
-            AppImage.logo,
-            width: 110.sp,
-            height: 40.98.sp,
-          ),
-          Spacer(),
-          if (isShowNotification == true)
-            Bounceable(
-              onTap: () {
-                Get.to(() => WishListView());
-              },
-              child: Container(
-                height: 44.sp,
-                width: 44.sp,
-                decoration: BoxDecoration(
-                  color: AppColors.cardBackgroundColor,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.shadowColorLight,
-                      blurRadius: 8.sp,
-                      offset: Offset(0, 2.sp),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    AppIcon.addwishIcon,
-                    color: AppColors.primaryColor,
-                    width: 20.sp,
-                    height: 20.sp,
-                  ),
-                ),
-              ),
-            ),
-          if (isShowNotification == true) horizontalGap(10.sp),
-          if (isShowNotification == true)
-            Bounceable(
-              onTap: () {
-                Get.to(() => CartView());
-              },
-              child: Container(
-                height: 44.sp,
-                width: 44.sp,
-                decoration: BoxDecoration(
-                  color: AppColors.cardBackgroundColor,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.shadowColorLight,
-                      blurRadius: 8.sp,
-                      offset: Offset(0, 2.sp),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: SvgPicture.asset(
-                        AppIcon.cartIcon,
-                        width: 20.sp,
-                        color: AppColors.primaryColor,
-                        height: 20.sp,
-                      ),
-                    ),
-                    Positioned(
-                      top: 6.sp,
-                      right: 6.sp,
-                      child: Container(
-                        height: 16.sp,
-                        width: 16.sp,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColors.mainRedColor,
-                              AppColors.secondRedColor,
-                            ],
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.mainRedColor.withOpacity(0.5),
-                              blurRadius: 4.sp,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Obx(() {
-                            if (cartListController.isLoading.value) {
-                              return SizedBox();
-                            } else {
-                              if (cartListController
-                                  .cartData.value.cartCourses.isEmpty) {
-                                return FittedBox(
-                                  child: Text(
-                                    "0",
-                                    style: TextStyle(
-                                      color: AppColors.cardBackgroundColor,
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 9.sp,
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return FittedBox(
-                                  child: Text(
-                                    cartListController
-                                        .cartData.value.cartCourses.length
-                                        .toString(),
-                                    style: TextStyle(
-                                      color: AppColors.cardBackgroundColor,
-                                      fontWeight: FontWeight.w900,
-                                      fontSize: 9.sp,
-                                    ),
-                                  ),
-                                );
-                              }
-                            }
-                          }),
-                        ),
-                      ),
                     )
-                  ],
+                  : Icon(icon, size: 27.sp, color: AppColors.primaryColor),
+            ),
+            if (badge != null)
+              PositionedDirectional(
+                top: 3.h,
+                end: 3.w,
+                child: Container(
+                  height: 17.sp,
+                  width: 17.sp,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.mainRedColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: badge,
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

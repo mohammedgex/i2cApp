@@ -11,17 +11,9 @@ class MultiLangualDataController extends GetxController {
 
   @override
   void onInit() async {
-    // Default to Arabic (ar) and RTL direction unless user preference exists
-    var langCode = await SharedPrefUtil.get('language_code', 'ar');
-
-    var direction = await SharedPrefUtil.get('text_direction', 'rtl');
-    if (direction == "ltr") {
-      isLTR.value = true;
-    } else {
-      isLTR.value = false;
-    }
-
-    getMultilangualData(langCode);
+    // The product is Arabic-first: keep all layouts and content RTL.
+    isLTR.value = false;
+    getMultilangualData('ar');
     super.onInit();
   }
 

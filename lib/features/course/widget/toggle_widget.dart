@@ -37,14 +37,14 @@ class ToggleWidget extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          height: 50.sp, // Adjust as needed
+          height: 48.h,
           decoration: BoxDecoration(
             color: AppColors.nuralItemBackgroundColor,
-            borderRadius: BorderRadius.circular(3.sp),
+            borderRadius: BorderRadius.circular(12.r),
           ),
           child: Obx(() {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.sp, vertical: 5.sp),
+              padding: EdgeInsets.all(4.w),
               child: Row(
                 textDirection: multiLangualDataController.isLTR.value
                     ? TextDirection.ltr
@@ -77,14 +77,7 @@ class ToggleWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  horizontalGap(2.sp),
-                  VerticalDivider(
-                    thickness: 2.sp,
-                    width: 3.sp,
-                    endIndent: 15.sp,
-                    indent: 15.sp,
-                  ),
-                  horizontalGap(2.sp),
+                  horizontalGap(4.w),
                   Expanded(
                     child: Bounceable(
                       onTap: () {
@@ -112,14 +105,7 @@ class ToggleWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  horizontalGap(2.sp),
-                  VerticalDivider(
-                    thickness: 2.sp,
-                    width: 3.sp,
-                    endIndent: 15.sp,
-                    indent: 15.sp,
-                  ),
-                  horizontalGap(2.sp),
+                  horizontalGap(4.w),
                   Expanded(
                     child: Bounceable(
                       onTap: () {
@@ -158,7 +144,11 @@ class ToggleWidget extends StatelessWidget {
             return Container(
               width: double.infinity,
               // height: 100.sp,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: BoxDecoration(
+                color: AppColors.cardBackgroundColor,
+                borderRadius: BorderRadius.circular(14.r),
+                border: Border.all(color: AppColors.textFieldBorderColor),
+              ),
               child: Padding(
                 padding:
                     EdgeInsets.symmetric(horizontal: 10.sp, vertical: 15.sp),
@@ -173,7 +163,7 @@ class ToggleWidget extends StatelessWidget {
                       text: "Description",
                       softWrap: true,
                       style: TextStyle(
-                        fontSize: 20.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -189,7 +179,11 @@ class ToggleWidget extends StatelessWidget {
           } else if (toggleController.selectedIndex.value == 1) {
             return Container(
               width: double.infinity,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: BoxDecoration(
+                color: AppColors.cardBackgroundColor,
+                borderRadius: BorderRadius.circular(14.r),
+                border: Border.all(color: AppColors.textFieldBorderColor),
+              ),
               child: Padding(
                 padding:
                     EdgeInsets.symmetric(horizontal: 7.sp, vertical: 15.sp),
@@ -394,7 +388,11 @@ class ToggleWidget extends StatelessWidget {
             return Container(
               width: double.infinity,
               // height: 100.sp,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: BoxDecoration(
+                color: AppColors.cardBackgroundColor,
+                borderRadius: BorderRadius.circular(14.r),
+                border: Border.all(color: AppColors.textFieldBorderColor),
+              ),
               child: Obx(() {
                 if (courseReviewController.isLoading.value) {
                   return Center(
@@ -582,12 +580,14 @@ class ToggleWidget extends StatelessWidget {
                                     }
                                   : null,
                               child: GlobalText(
-                                text: 'Previous',
-                                softWrap: false,
-                              ),
+                                  text: 'Previous',
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontFamily: "BalooBhaijaan2",
+                                  )),
                             ),
                             Text(
-                              'Page ${courseReviewController.course.value!.pagination.currentPage} of ${courseReviewController.course.value!.pagination.lastPage}',
+                              'الصفحة ${courseReviewController.course.value!.pagination.currentPage} الي ${courseReviewController.course.value!.pagination.lastPage}',
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
@@ -611,9 +611,11 @@ class ToggleWidget extends StatelessWidget {
                                     }
                                   : null,
                               child: GlobalText(
-                                text: 'Next',
-                                softWrap: false,
-                              ),
+                                  text: 'Next',
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    fontFamily: "BalooBhaijaan2",
+                                  )),
                             ),
                           ],
                         ),

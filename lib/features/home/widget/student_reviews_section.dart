@@ -19,25 +19,32 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
 
   final List<_StudentReview> _reviews = const [
     _StudentReview(
-      name: 'أحمد مصطفى',
-      course: 'دورة صيانة الموبايل - المستوى الأول',
+      name: 'كريم محمود',
+      course: 'دورة صيانة الموبايل',
       comment:
-          'الدورة ممتازة جداً، بدأت من الصفر وتعلمت أساسيات الهاردوير والـسوفت وير خطوة بخطوة.',
-      rating: 4.8,
+          'بصراحة المهندس هاني شرحه جامد جدًا، وبيوصل المعلومة بطريقة بسيطة من غير تعقيد. أنا كنت فاكر الموضوع صعب بس مع الشرح والتطبيق بدأت أفهم الدنيا واحدة واحدة.',
+      rating: 5.0,
     ),
     _StudentReview(
-      name: 'سارة علي',
-      course: 'دورة احتراف صيانة الموبايل',
+      name: 'عبدالله العتيبي',
+      course: 'دورة احتراف صيانة الجوال',
       comment:
-          'الشرح واضح جداً والتطبيق العملي على أعطال حقيقية خلاني جاهز أبدأ شغل فوراً.',
+          'صراحة من أفضل التجارب التعليمية اللي مريت فيها، شرح المهندس هاني واضح جدًا وتعاملهم راقي. استفدت بشكل كبير وحسيت إن المحتوى مرتب والتطبيق العملي فرق معي كثير.',
+      rating: 5.0,
+    ),
+    _StudentReview(
+      name: 'مصطفى الكعبي',
+      course: 'دورة أعطال الموبايل المتقدمة',
+      comment:
+          'بصراحة المهندس هاني ما قصر ويانا، شرحه واضح وسلس ويخليك تفهم المعلومة من أول مرة. والأكاديمية تعاملهم كلش زين، واستفاديت منهم هواي وأنصح أي واحد يريد يتعلم بشكل صحيح يجرب وياهم.',
       rating: 5.0,
     ),
     _StudentReview(
       name: 'محمد إبراهيم',
-      course: 'دورة أعطال متقدمة في صيانة الموبايل',
+      course: 'دورة صيانة الموبايل العملية',
       comment:
-          'تفاصيل الأعطال المعقدة وطرق التشخيص في الدورة فرقت معايا جداً في الشغل اليومي.',
-      rating: 4.9,
+          'تجربتي مع I2C كانت حلوة جدًا، والمهندس هاني بجد بيهتم إنك تفهم مش تحفظ وخلاص. أي حاجة كانت بتقف معايا كنت بسأل وبلاقي شرح ومتابعة، ربنا يكرمه بجد.',
+      rating: 5.0,
     ),
   ];
 
@@ -71,7 +78,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
               letterSpacing: 0.3,
             ),
           ),
-          SizedBox(height: 10.sp),
+          SizedBox(height: 6.sp),
           GlobalText(
             text: 'تجارب حقيقية من طلاب دورات صيانة الموبايل',
             softWrap: true,
@@ -82,9 +89,9 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
               fontWeight: FontWeight.w400,
             ),
           ),
-          SizedBox(height: 20.sp),
+          SizedBox(height: 14.sp),
           SizedBox(
-            height: 190.sp,
+            height: 166.sp,
             child: PageView.builder(
               controller: _pageController,
               itemCount: _reviews.length,
@@ -99,7 +106,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
               },
             ),
           ),
-          SizedBox(height: 12.sp),
+          SizedBox(height: 8.sp),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
@@ -142,17 +149,11 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 6.sp),
-        padding: EdgeInsets.all(16.sp),
+        padding: EdgeInsets.all(14.sp),
         decoration: BoxDecoration(
           color: AppColors.cardBackgroundColor,
-          borderRadius: BorderRadius.circular(20.sp),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.shadowColorLight,
-              blurRadius: 14.sp,
-              offset: Offset(0, 6.sp),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(14.sp),
+          border: Border.all(color: AppColors.textFieldBorderColor),
         ),
         child: Column(
           crossAxisAlignment:
@@ -193,7 +194,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 10.sp),
+            SizedBox(height: 8.sp),
             Expanded(
               child: GlobalText(
                 text: review.comment,
@@ -202,7 +203,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
                   color: AppColors.smallTextColor,
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  height: 1.5,
+                  height: 1.35,
                 ),
               ),
             ),

@@ -46,7 +46,7 @@ class CourseDetailsView extends StatelessWidget {
         bottom: false,
         color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Obx(() {
             if (profileDataCotroller.isLoading.value ||
                 profileDataCotroller.userDataResponse.value == null) {
@@ -88,13 +88,13 @@ class CourseDetailsView extends StatelessWidget {
                       verticalPadding: 0,
                       isShowbackButton: true,
                     ),
-                    verticalGap(10.sp),
+                    verticalGap(6.h),
                     Container(
                       width: double.infinity,
-                      height: 200.sp,
+                      height: 210.h,
                       decoration: BoxDecoration(
                         color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(10.sp),
+                        borderRadius: BorderRadius.circular(14.r),
                       ),
                       child: Stack(
                         children: [
@@ -235,21 +235,24 @@ class CourseDetailsView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    verticalGap(10.sp),
+                    verticalGap(14.h),
                     GlobalText(
                       text: courseDetalisController.course.value?.title ??
                           "No Title",
                       softWrap: true,
                       style: TextStyle(
-                          fontSize: 15.sp, fontWeight: FontWeight.w700),
+                          fontSize: 20.sp,
+                          height: 1.25,
+                          color: AppColors.titleTextColor,
+                          fontWeight: FontWeight.w700),
                     ),
-                    verticalGap(5.sp),
+                    verticalGap(6.h),
                     RichText(
                       text: TextSpan(
                         text: "بواسطة ",
                         style: TextStyle(
                           fontSize: 12.sp,
-                          fontFamily: 'balooBhaijaan2',
+                          fontFamily: "BalooBhaijaan2",
                           fontWeight: FontWeight.w500,
                           color: AppColors.smallTextColor,
                         ),
@@ -261,14 +264,14 @@ class CourseDetailsView extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w500,
-                              fontFamily: 'balooBhaijaan2',
+                              fontFamily: "BalooBhaijaan2",
                               color: AppColors.primaryColor,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    verticalGap(7.sp),
+                    verticalGap(9.h),
                     Row(
                       textDirection: multiLangualDataController.isLTR.value
                           ? TextDirection.ltr
@@ -294,40 +297,40 @@ class CourseDetailsView extends StatelessWidget {
                           ),
                           softWrap: true,
                         ),
-                        GlobalText(
-                          text: " | ",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.smallTextColor,
-                          ),
-                          softWrap: true,
-                        ),
-                        GlobalText(
-                          text:
-                              "${courseDetalisController.course.value?.students ?? 0}",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.smallTextColor,
-                          ),
-                          softWrap: true,
-                        ),
-                        GlobalText(
-                          text: " طالب",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.smallTextColor,
-                          ),
-                          softWrap: true,
-                        ),
+                        // GlobalText(
+                        //   text: " | ",
+                        //   style: TextStyle(
+                        //     fontSize: 12.sp,
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.smallTextColor,
+                        //   ),
+                        //   softWrap: true,
+                        // ),
+                        // GlobalText(
+                        //   text:
+                        //       "${courseDetalisController.course.value?.students ?? 0}",
+                        //   style: TextStyle(
+                        //     fontSize: 12.sp,
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.smallTextColor,
+                        //   ),
+                        //   softWrap: true,
+                        // ),
+                        // GlobalText(
+                        //   text: " طالب",
+                        //   style: TextStyle(
+                        //     fontSize: 12.sp,
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.smallTextColor,
+                        //   ),
+                        //   softWrap: true,
+                        // ),
                       ],
                     ),
-                    verticalGap(15.sp),
+                    verticalGap(14.h),
                     CourseInfo(
                         courseDetalisController: courseDetalisController),
-                    // verticalGap(10.sp),
+                    verticalGap(12.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -337,7 +340,7 @@ class CourseDetailsView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 80.sp,
+                            height: 64.h,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5.sp),
@@ -355,7 +358,6 @@ class CourseDetailsView extends StatelessWidget {
                                     text: "السعر",
                                     style: TextStyle(
                                       fontSize: 13.sp,
-                                      fontFamily: 'balooBhaijaan2',
                                       fontWeight: FontWeight.w400,
                                       color: AppColors.smallTextColor,
                                     ),
@@ -385,7 +387,7 @@ class CourseDetailsView extends StatelessWidget {
                                             "N/A",
                                         softWrap: true,
                                         style: TextStyle(
-                                          fontSize: 18.sp,
+                                          fontSize: 20.sp,
                                           fontWeight: FontWeight.w800,
                                         ),
                                       ),
@@ -428,21 +430,21 @@ class CourseDetailsView extends StatelessWidget {
                                   addToCartController.addToCart(slug);
                                 },
                                 child: Container(
-                                  height: 40.sp,
+                                  height: 46.h,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     color: AppColors.primaryColor,
                                     border: Border.all(
                                         color: AppColors.primaryColor,
-                                        width: 1.5.sp),
-                                    borderRadius: BorderRadius.circular(5.sp),
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(10.r),
                                   ),
                                   child: Center(
                                     child: GlobalText(
                                       text: "إضافة إلى السلة",
                                       softWrap: true,
                                       style: TextStyle(
-                                        fontSize: 13.sp,
+                                        fontSize: 14.sp,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w500,
                                       ),

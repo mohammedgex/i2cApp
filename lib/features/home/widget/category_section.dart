@@ -70,7 +70,7 @@ class CategorySection extends StatelessWidget {
               crossAxisCount: 4,
               mainAxisSpacing: 10.sp,
               crossAxisSpacing: 10.sp,
-              childAspectRatio: 1,
+              childAspectRatio: 0.86,
             ),
             itemCount: categoryItmeController.categories.length,
             itemBuilder: (context, index) {
@@ -86,26 +86,12 @@ class CategorySection extends StatelessWidget {
                       : TextDirection.rtl,
                   children: [
                     Container(
-                      height: 60.sp,
-                      width: 60.sp,
-                      padding: EdgeInsets.all(12.sp),
+                      height: 54.sp,
+                      width: 54.sp,
+                      padding: EdgeInsets.all(11.sp),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.primaryColor.withOpacity(0.1),
-                            AppColors.secondaryColor.withOpacity(0.05),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
+                        color: AppColors.primaryColor.withOpacity(0.09),
                         shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.shadowColorLight,
-                            blurRadius: 8.sp,
-                            offset: Offset(0, 4.sp),
-                          ),
-                        ],
                       ),
                       child: Center(
                         child: Image.network(
@@ -114,13 +100,15 @@ class CategorySection extends StatelessWidget {
                         ),
                       ),
                     ),
-                    verticalGap(6.sp),
+                    verticalGap(4.sp),
                     GlobalText(
                       softWrap: false,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       text: categoryItmeController.categories[index].name,
                       style: TextStyle(
                         color: AppColors.smallTextColor,
-                        fontSize: 13.sp,
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.w600,
                         height: 1.3,
                       ),

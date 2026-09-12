@@ -14,7 +14,7 @@ import '../../../core/constant/constant.dart';
 import '../../../core/widgets/custom_rating_bar.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
-import '../../payment/view/payment_method_list_view.dart';
+import '../../payment/view/manual_payment_screen.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
@@ -64,7 +64,7 @@ class CartView extends StatelessWidget {
               bottom: false,
               color: AppColors.scaffoldBackgroundColor,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Column(
                   textDirection: multiLangualDataController.isLTR.value
                       ? TextDirection.ltr
@@ -79,10 +79,10 @@ class CartView extends StatelessWidget {
                       isShowNotification: false,
                     ),
                     GlobalText(
-                      text: "Cart",
+                      text: "السلة",
                       softWrap: true,
                       style: TextStyle(
-                          fontSize: 15.sp, fontWeight: FontWeight.w600),
+                          fontSize: 19.sp, fontWeight: FontWeight.w700),
                     ),
                     ...cartListController.cartData.value.cartCourses.map(
                       (cart) => Padding(
@@ -95,12 +95,13 @@ class CartView extends StatelessWidget {
                           child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                // border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10.sp),
-                                color: AppColors.nuralItemBackgroundColor,
+                                borderRadius: BorderRadius.circular(14.r),
+                                color: AppColors.cardBackgroundColor,
+                                border: Border.all(
+                                    color: AppColors.textFieldBorderColor),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(3.sp),
+                                padding: EdgeInsets.all(8.w),
                                 child: Row(
                                   textDirection:
                                       multiLangualDataController.isLTR.value
@@ -108,20 +109,19 @@ class CartView extends StatelessWidget {
                                           : TextDirection.rtl,
                                   children: [
                                     Container(
-                                      height: 80.sp,
-                                      width: 103.sp,
+                                      height: 86.h,
+                                      width: 112.w,
                                       decoration: BoxDecoration(
                                         borderRadius:
-                                            BorderRadius.circular(10.sp),
+                                            BorderRadius.circular(10.r),
                                       ),
                                       child: Image.network(
                                         ApiEndpoint.BASE_URL + cart.thumbnail,
-                                        // fit: BoxFit.cover,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                     horizontalGap(10.sp),
-                                    SizedBox(
-                                      width: 235.w,
+                                    Expanded(
                                       child: Column(
                                         textDirection:
                                             multiLangualDataController
@@ -136,7 +136,7 @@ class CartView extends StatelessWidget {
                                           GlobalText(
                                             text: cart.title,
                                             style: TextStyle(
-                                                fontSize: 12.sp,
+                                                fontSize: 14.sp,
                                                 fontWeight: FontWeight.w600,
                                                 color:
                                                     AppColors.titleTextColor),
@@ -203,7 +203,7 @@ class CartView extends StatelessWidget {
                                               CustomRatingBar(
                                                 rating: cart.averageRating,
                                                 maxRating: 5,
-                                                iconSize: 15.sp,
+                                                iconSize: 13.sp,
                                                 filledColor:
                                                     AppColors.activeIconColor,
                                                 unfilledColor:
@@ -238,7 +238,7 @@ class CartView extends StatelessWidget {
                                                   GlobalText(
                                                     text: cart.price.toString(),
                                                     style: TextStyle(
-                                                        fontSize: 15.sp,
+                                                        fontSize: 16.sp,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         color: AppColors
@@ -264,55 +264,49 @@ class CartView extends StatelessWidget {
               ),
             ),
             bottomNavigationBar: Container(
-              margin: EdgeInsets.only(bottom: 20.sp),
+              margin: EdgeInsets.zero,
               width: double.infinity,
-              height: 60.h,
+              height: 78.h,
               decoration: BoxDecoration(
-                color: AppColors.nuralItemBackgroundColor,
-                // borderRadius: BorderRadius.circular(10.r),
+                color: AppColors.cardBackgroundColor,
+                border: Border(
+                  top: BorderSide(color: AppColors.textFieldBorderColor),
+                ),
               ),
               child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Row(
                   textDirection: multiLangualDataController.isLTR.value
                       ? TextDirection.ltr
                       : TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Expanded(
+                      child: GlobalText(
+                      text: "الإجمالي الفرعي",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: AppColors.smallTextColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12.sp,
+                      ),
+                    )),
                     GlobalText(
-                      text: "Sub Total",
-                      softWrap: true,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13.sp,
-                      ),
+                      text: cartListController.cartData.value.totalAmount.toString(),
+                      softWrap: false,
+                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16.sp),
                     ),
-                    GlobalText(
-                      text: ": ",
-                      softWrap: true,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13.sp,
-                      ),
-                    ),
-                    Text(
-                      cartListController.cartData.value.totalAmount.toString(),
-                      softWrap: true,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13.sp,
-                      ),
-                    ),
-                    horizontalGap(50.sp),
+                    horizontalGap(14.w),
                     Bounceable(
                       onTap: () {
-                        Get.to(() => PaymentMethodListView());
+                        Get.to(() => const ManualPaymentScreen());
                       },
                       child: Container(
-                        height: 38.sp,
-                        width: 150.sp,
+                        height: 46.h,
+                        width: 132.w,
                         decoration: BoxDecoration(
-                          color: AppColors.activeIconColor,
+                          color: AppColors.primaryColor,
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                         child: Center(
@@ -325,15 +319,15 @@ class CartView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               GlobalText(
-                                text: "Check out",
+                                text: "الدفع",
                                 softWrap: true,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
                               ),
-                              horizontalGap(5.sp),
+                              horizontalGap(5.w),
                               SizedBox(
-                                  width: 15.sp,
+                                  width: 14.sp,
                                   child: SvgPicture.asset(
                                       AppIcon.arrowForwardIcon))
                             ],
@@ -343,7 +337,7 @@ class CartView extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              )),
             ),
           );
         }

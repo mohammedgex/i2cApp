@@ -53,9 +53,9 @@ class SearchView extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
-            left: 15.sp,
-            right: 15.sp,
-            top: 7.sp,
+            left: 20.w,
+            right: 20.w,
+            top: 10.h,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -103,8 +103,8 @@ class SearchView extends StatelessWidget {
         const Spacer(),
         Image.asset(
           AppImage.logo,
-          width: 80.53.sp,
-          height: 20.98.sp,
+          width: 108.w,
+          height: 34.h,
         ),
         const Spacer(),
       ],

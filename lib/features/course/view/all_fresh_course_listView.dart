@@ -210,16 +210,16 @@ class AllFreshCourseListview extends StatelessWidget {
                                                 softWrap: true,
                                               ),
                                               verticalGap(3.sp),
-                                              GlobalText(
-                                                  text:
-                                                      '${freshCourseConroller.courses[index].instructor.name} | ${freshCourseConroller.courses[index].students} Students',
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
+                                              // GlobalText(
+                                              //     text:
+                                              //         '${freshCourseConroller.courses[index].instructor.name} | ${freshCourseConroller.courses[index].students} Students',
+                                              //     style: TextStyle(
+                                              //         fontSize: 10.sp,
+                                              //         fontWeight:
+                                              //             FontWeight.w300,
+                                              //         color: AppColors
+                                              //             .titleTextColor),
+                                              //     softWrap: true),
                                               verticalGap(2.sp),
                                               Row(
                                                 textDirection:

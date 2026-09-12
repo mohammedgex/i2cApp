@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/widgets/controller/dropdwon_input_cntroller.dart';
@@ -45,21 +46,17 @@ class CustomDropDownField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50.sp,
+      height: 46.h,
       child: DropdownButtonHideUnderline(
         child: Obx(() {
-          final textDirection = multiLangualDataController.isLTR.value
-              ? TextDirection.ltr
-              : TextDirection.rtl;
+          const textDirection = TextDirection.rtl;
 
           return Directionality(
             textDirection: textDirection, // Ensure direction is applied
             child: DropdownButton2<String>(
               isExpanded: true,
               isDense: true,
-              alignment: multiLangualDataController.isLTR.value
-                  ? AlignmentDirectional.centerStart
-                  : AlignmentDirectional.centerEnd,
+              alignment: AlignmentDirectional.centerEnd,
               hint: GlobalText(
                 text: translatedText(title),
                 style: TextStyle(fontSize: 14.sp),
@@ -86,13 +83,13 @@ class CustomDropDownField extends StatelessWidget {
                 onItemSelected(value);
               },
               buttonStyleData: ButtonStyleData(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                height: 35.h,
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
+                height: 46.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: Colors.grey),
-                  color: Colors.white,
+                  border: Border.all(color: AppColors.textFieldBorderColor),
+                  color: AppColors.cardBackgroundColor,
                 ),
               ),
               iconStyleData: IconStyleData(
@@ -112,7 +109,8 @@ class CustomDropDownField extends StatelessWidget {
                     : DropdownDirection.right,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.r),
-                  color: Colors.white,
+                  color: AppColors.cardBackgroundColor,
+                  border: Border.all(color: AppColors.textFieldBorderColor),
                 ),
               ),
               dropdownSearchData: DropdownSearchData(

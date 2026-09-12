@@ -1,44 +1,32 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Primary Colors - Gold theme
-  static Color primaryColor = Color.fromARGB(255, 188, 143, 7); // Main gold
-  static Color primaryColorDark = Color(0xFFB48912); // Darker gold
-  static Color primaryColorLight =
-      Color.fromARGB(255, 192, 149, 9); // Lighter gold
-  static Color secondaryColor = Color(0xFF8B5CF6); // Accent purple (kept)
-  static Color accentColor = Color(0xFF06B6D4); // Accent cyan (kept)
-
-  // Gradient Colors
-  static List<Color> primaryGradient = [
-    Color(0xFFD6AB28), // Gold
-    Color(0xFFE7C967), // Light gold
-  ];
-
-  static List<Color> secondaryGradient = [
-    Color(0xFF8B5CF6), // Purple
-    Color(0xFF6366F1), // Indigo
-  ];
+  // Restrained, flat palette for a calmer interface.
+  static Color primaryColor = const Color(0xFFD4AB2A);
+  static Color primaryColorDark = const Color(0xFFD4AB2A);
+  static Color primaryColorLight = const Color(0xFFF4E8CF);
+  static Color secondaryColor = const Color(0xFF355C7D);
+  static Color accentColor = const Color(0xFF2D9C9C);
 
   // Background Colors - Softer and more eye-friendly
-  static Color scaffoldBackgroundColor = Color(0xFFFAFBFC); // Very light gray
-  static Color cardBackgroundColor = Color(0xFFFFFFFF);
-  static Color nuralItemBackgroundColor = Color(0xFFF7F8FA); // Softer gray
+  static Color scaffoldBackgroundColor = const Color(0xFFFAF9F6);
+  static Color cardBackgroundColor = const Color(0xFFFFFFFF);
+  static Color nuralItemBackgroundColor = const Color(0xFFF2F0EA);
 
   // Text Colors - Softer and more readable
-  static Color onboardingTitleTextColor = Color(0xFF1A1F36); // Softer dark
-  static Color titleTextColor = Color(0xFF2D3748); // Softer slate
-  static Color smallTextColor = Color(0xFF4A5568); // More readable gray
-  static Color appbarTitleTextColor = Color(0xFF1A1F36);
-  static Color hintTextColor = Color(0xFFA0AEC0); // Softer hint
+  static Color onboardingTitleTextColor = const Color(0xFF202A35);
+  static Color titleTextColor = const Color(0xFF26313D);
+  static Color smallTextColor = const Color(0xFF66717E);
+  static Color appbarTitleTextColor = const Color(0xFF202A35);
+  static Color hintTextColor = const Color(0xFF9AA3AD);
   static Color globalButtonTextColor = Color(0xFFFFFFFF);
   static Color onboardingSubtitleTextColor =
       Color(0xFF718096); // Softer subtitle
 
   // UI Element Colors - Softer borders
-  static Color inactiveIconColor = Color(0xFFCBD5E0);
-  static Color activeIconColor = Color(0xFFD6AB28);
-  static Color textFieldBorderColor = Color(0xFFE8EDF3); // Softer border
+  static Color inactiveIconColor = const Color(0xFFABB3BB);
+  static Color activeIconColor = const Color(0xFFB88516);
+  static Color textFieldBorderColor = const Color(0xFFDDD9D0);
 
   // Status Colors
   static Color mainRedColor = Color(0xFFEF4444); // Modern Red
@@ -63,6 +51,6 @@ class AppColors {
   static Color shimmerHighlightColor = Color(0xFFF1F5F9);
 
   // Shadow Colors
-  static Color shadowColor = Color(0x1A000000);
-  static Color shadowColorLight = Color(0x0D000000);
+  static Color shadowColor = const Color(0x120F1C2E);
+  static Color shadowColorLight = const Color(0x080F1C2E);
 }

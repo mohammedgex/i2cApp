@@ -70,7 +70,7 @@ class _ProfileViewState extends State<ProfileView> {
         child: Obx(() {
           return SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.sp),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 textDirection: multiLangualDataController.isLTR.value
@@ -84,7 +84,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 200.sp,
+                    height: 164.h,
                     decoration: BoxDecoration(
                       // color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(10.sp),
@@ -98,8 +98,8 @@ class _ProfileViewState extends State<ProfileView> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                            width: 120.sp,
-                            height: 120.sp,
+                            width: 96.w,
+                            height: 96.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.primaryColor,
@@ -114,13 +114,13 @@ class _ProfileViewState extends State<ProfileView> {
                                   fit: BoxFit.cover),
                             ),
                           ),
-                          verticalGap(5.sp),
+                          verticalGap(8.h),
                           GlobalText(
                             text: profileDataCotroller
                                     .userDataResponse.value?.data.name ??
                                 "No data found",
                             style: TextStyle(
-                                fontSize: 20.sp, fontWeight: FontWeight.bold),
+                                fontSize: 19.sp, fontWeight: FontWeight.w700),
                             softWrap: true,
                           ),
                           GlobalText(
@@ -128,7 +128,9 @@ class _ProfileViewState extends State<ProfileView> {
                                     .userDataResponse.value?.data.email ??
                                 "No data found",
                             style: TextStyle(
-                                fontSize: 15.sp, fontWeight: FontWeight.w300),
+                                color: AppColors.smallTextColor,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
                             softWrap: true,
                           ),
                         ],
@@ -136,19 +138,28 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ),
                   if (showLanguageCurrency) ...[
-                    verticalGap(20.sp),
-                    GlobalText(text: "Language and Currency", softWrap: true),
-                    verticalGap(10.sp),
+                    verticalGap(22.h),
+                    GlobalText(
+                      text: "Language and Currency",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: AppColors.titleTextColor,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    verticalGap(8.h),
                     Bounceable(
                       onTap: () {
                         Get.to(() => LanguageListView());
                       },
                       child: Container(
                         width: double.infinity,
-                        height: 50.sp,
+                        height: 52.h,
                         decoration: BoxDecoration(
-                          color: AppColors.nuralItemBackgroundColor,
-                          borderRadius: BorderRadius.circular(10.sp),
+                          color: AppColors.cardBackgroundColor,
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(color: AppColors.textFieldBorderColor),
                         ),
                         child: Row(
                           textDirection: multiLangualDataController.isLTR.value
@@ -170,17 +181,18 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                     ),
-                    verticalGap(10.sp),
+                    verticalGap(8.h),
                     Bounceable(
                       onTap: () {
                         Get.to(() => CurrencyListView());
                       },
                       child: Container(
                         width: double.infinity,
-                        height: 50.sp,
+                        height: 52.h,
                         decoration: BoxDecoration(
-                          color: AppColors.nuralItemBackgroundColor,
-                          borderRadius: BorderRadius.circular(10.sp),
+                          color: AppColors.cardBackgroundColor,
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(color: AppColors.textFieldBorderColor),
                         ),
                         child: Row(
                           textDirection: multiLangualDataController.isLTR.value
@@ -212,10 +224,11 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 50.sp,
+                      height: 52.h,
                       decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.sp),
+                        color: AppColors.cardBackgroundColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -244,10 +257,11 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 50.sp,
+                      height: 52.h,
                       decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.sp),
+                        color: AppColors.cardBackgroundColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -274,10 +288,11 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 50.sp,
+                      height: 52.h,
                       decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.sp),
+                        color: AppColors.cardBackgroundColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -306,10 +321,11 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 50.sp,
+                      height: 52.h,
                       decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.sp),
+                        color: AppColors.cardBackgroundColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -337,10 +353,11 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 50.sp,
+                      height: 52.h,
                       decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.sp),
+                        color: AppColors.cardBackgroundColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -368,12 +385,12 @@ class _ProfileViewState extends State<ProfileView> {
                     },
                     child: Container(
                       width: double.infinity,
-                      height: 50.sp,
+                      height: 52.h,
                       decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
+                        color: AppColors.cardBackgroundColor,
                         border: Border.all(
                             color: AppColors.mainRedColor, width: 0.5.sp),
-                        borderRadius: BorderRadius.circular(10.sp),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value

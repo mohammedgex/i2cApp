@@ -33,15 +33,7 @@ class GlobalButton extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: color ?? AppColors.primaryColor,
-          borderRadius: BorderRadius.circular(16.sp),
-          boxShadow: [
-            BoxShadow(
-              color: (color ?? AppColors.primaryColor).withOpacity(0.3),
-              blurRadius: 12.sp,
-              offset: Offset(0, 6.sp),
-              spreadRadius: 0,
-            ),
-          ],
+          borderRadius: BorderRadius.circular(10.sp),
         ),
         child: Center(
           child: GlobalText(
@@ -49,10 +41,9 @@ class GlobalButton extends StatelessWidget {
             text: translatedText,
             style: TextStyle(
               color: AppColors.globalButtonTextColor,
-              fontSize: 17.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w700,
-              height: 1.4,
-              letterSpacing: 0.3,
+              height: 1.2,
             ),
           ),
         ),

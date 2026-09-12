@@ -144,18 +144,15 @@ class GlobalText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ensure multiLangualData is a Map and the key exists
-    String translatedText =
-        multiLangualDataController.multiLangualData[text] ?? text;
-
     return Obx(() {
+      final translatedText =
+          multiLangualDataController.multiLangualData[text] ?? text;
+
       return Text(
         translatedText,
         style: style,
         textAlign: textAlign,
-        textDirection: multiLangualDataController.isLTR.value
-            ? TextDirection.ltr
-            : TextDirection.rtl,
+        textDirection: TextDirection.rtl,
         softWrap: softWrap,
         overflow: overflow,
         maxLines: maxLines,
@@ -216,6 +213,7 @@ class HtmlGlobalText extends StatelessWidget {
           fontSize: FontSize(style?.fontSize ?? 12),
           fontWeight: style?.fontWeight,
           color: style?.color,
+          fontFamily: "BalooBhaijaan2",
           textAlign: textAlign ?? TextAlign.start,
         ),
       },

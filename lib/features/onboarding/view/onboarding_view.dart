@@ -15,17 +15,20 @@ class OnboardingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Obx(() {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
 
           // Force RTL for onboarding page and use Arabic labels
+          final onboardingData = controller.welcomeData.value!.data;
+          final isLastPage =
+              controller.currentPage.value == onboardingData.length - 1;
+
           return Directionality(
             textDirection: TextDirection.rtl,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
                   child: PageView.builder(
@@ -46,49 +49,61 @@ class OnboardingView extends StatelessWidget {
                       String image =
                           onboardingImages[index % onboardingImages.length];
 
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Spacer(),
-                          Center(
-                            child: Image.asset(
-                              image,
-                              height: 250.h,
-                            ),
-                          ),
-                          verticalGap(30.h),
-                          ShaderMask(
-                            shaderCallback: (bounds) => LinearGradient(
-                              colors: AppColors.primaryGradient,
-                            ).createShader(bounds),
-                            child: Text(
-                              item.title,
-                              style: TextStyle(
-                                fontSize: 28.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                height: 1.3,
-                                letterSpacing: 0.5,
+                      return LayoutBuilder(
+                        builder: (context, constraints) {
+                          return SingleChildScrollView(
+                            padding: EdgeInsets.symmetric(vertical: 24.h),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: constraints.maxHeight,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    image,
+                                    width: 400.w,
+                                    height: 280.h,
+                                  ),
+                                  verticalGap(26.h),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Text(
+                                      item.title,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 24.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.titleTextColor,
+                                        height: 1.3,
+                                      ),
+                                    ),
+                                  ),
+                                  verticalGap(14.h),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Text(
+                                      item.description,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        color: AppColors.smallTextColor,
+                                        height: 1.5,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          verticalGap(16.h),
-                          Text(
-                            item.description,
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              color: AppColors.smallTextColor,
-                              height: 1.5,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       );
                     },
                   ),
                 ),
-                verticalGap(100.h),
+                verticalGap(32.h),
 
                 // Page Indicator
                 Row(
@@ -102,13 +117,8 @@ class OnboardingView extends StatelessWidget {
                       height: 8.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.h),
-                        gradient: controller.currentPage.value == index
-                            ? LinearGradient(
-                                colors: AppColors.primaryGradient,
-                              )
-                            : null,
                         color: controller.currentPage.value == index
-                            ? null
+                            ? AppColors.primaryColor
                             : Colors.grey.shade300,
                       ),
                     ),
@@ -128,7 +138,7 @@ class OnboardingView extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             color: AppColors.cardBackgroundColor,
-                            borderRadius: BorderRadius.circular(16.r),
+                            borderRadius: BorderRadius.circular(14.r),
                             border: Border.all(
                               color: AppColors.textFieldBorderColor,
                               width: 1.5,
@@ -140,15 +150,15 @@ class OnboardingView extends StatelessWidget {
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.r),
+                                borderRadius: BorderRadius.circular(14.r),
                               ),
                               padding: EdgeInsets.symmetric(
-                                  vertical: 14.h, horizontal: 30.w),
+                                  vertical: 8.h, horizontal: 16.w),
                             ),
                             child: Text(
                               "السابق",
                               style: TextStyle(
-                                fontFamily: 'balooBhaijaan2',
+                                fontFamily: 'BalooBhaijaan2',
                                 fontSize: 16.sp,
                                 color: AppColors.titleTextColor,
                                 fontWeight: FontWeight.w600,
@@ -158,27 +168,12 @@ class OnboardingView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Obx(() {
-                      if (controller.currentPage.value > 0) {
-                        return horizontalGap(20.w);
-                      } else {
-                        return SizedBox();
-                      }
-                    }),
+                    if (controller.currentPage.value > 0) horizontalGap(20.w),
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: AppColors.primaryGradient,
-                          ),
-                          borderRadius: BorderRadius.circular(16.r),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primaryColor.withOpacity(0.4),
-                              blurRadius: 12.r,
-                              offset: Offset(0, 6.r),
-                            ),
-                          ],
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.circular(14.r),
                         ),
                         child: ElevatedButton(
                           onPressed: controller.nextPage,
@@ -186,27 +181,20 @@ class OnboardingView extends StatelessWidget {
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.r),
+                              borderRadius: BorderRadius.circular(14.r),
                             ),
                             padding: EdgeInsets.symmetric(
-                                vertical: 14.h, horizontal: 30.w),
+                                vertical: 8.h, horizontal: 16.w),
                           ),
-                          child: Obx(() {
-                            return Text(
-                              controller.currentPage.value ==
-                                      controller
-                                              .welcomeData.value!.data.length -
-                                          1
-                                  ? "ابدأ الآن"
-                                  : "التالي",
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontFamily: 'balooBhaijaan2',
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            );
-                          }),
+                          child: Text(
+                            isLastPage ? "ابدأ الآن" : "التالي",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontFamily: 'BalooBhaijaan2',
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ),
                     ),

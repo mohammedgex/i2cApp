@@ -41,8 +41,8 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Image.asset(
                       AppImage.logo,
-                      height: 100.sp,
-                      width: 150.sp,
+                      height: 110.sp,
+                      width: 165.sp,
                     ),
                     CustomTextField(
                       controller: registrationController.nameController,
@@ -132,7 +132,7 @@ class RegistrationView extends StatelessWidget {
                                 Colors.transparent),
                           ),
                           onPressed: () {
-                           Get.back();
+                            Get.back();
                           },
                           child: GlobalText(
                             text: "Login",

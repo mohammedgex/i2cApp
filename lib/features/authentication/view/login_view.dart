@@ -30,7 +30,7 @@ class LoginView extends StatelessWidget {
         color: AppColors.scaffoldBackgroundColor,
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(18.0),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             child: Form(
               key: loginController.formKey,
               child: SingleChildScrollView(
@@ -41,11 +41,43 @@ class LoginView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 20.h),
                     Image.asset(
                       AppImage.logo,
                       height: 100.sp,
                       width: 150.sp,
                     ),
+                    verticalGap(24.h),
+                    Align(
+                      alignment: multiLangualDataController.isLTR.value
+                          ? Alignment.centerLeft
+                          : Alignment.centerRight,
+                      child: GlobalText(
+                        text: ' مرحبا بك في i2C Academy',
+                        softWrap: true,
+                        style: TextStyle(
+                          color: AppColors.titleTextColor,
+                          fontSize: 23.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    verticalGap(4.h),
+                    Align(
+                      alignment: multiLangualDataController.isLTR.value
+                          ? Alignment.centerLeft
+                          : Alignment.centerRight,
+                      child: GlobalText(
+                        text:
+                            'سجل دخولك لتتابع دوراتك وتطور مهاراتك في صيانة الموبايل.',
+                        softWrap: true,
+                        style: TextStyle(
+                          color: AppColors.smallTextColor,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                    verticalGap(22.h),
                     CustomTextField(
                       controller: loginController.emailController,
                       hint: "Email",
@@ -53,7 +85,7 @@ class LoginView extends StatelessWidget {
                       inputType: TextInputType.emailAddress,
                       validator: loginController.validateEmail,
                     ),
-                    verticalGap(10.sp),
+                    verticalGap(12.sp),
                     CustomTextField(
                       controller: loginController.passwordController,
                       obscureText: true,
@@ -62,7 +94,7 @@ class LoginView extends StatelessWidget {
                       inputType: TextInputType.visiblePassword,
                       validator: loginController.validatePassword,
                     ),
-                    verticalGap(10.sp),
+                    verticalGap(12.sp),
                     Align(
                         alignment: Alignment.centerRight,
                         child: Bounceable(
@@ -76,13 +108,13 @@ class LoginView extends StatelessWidget {
                             style: TextStyle(color: AppColors.primaryColor),
                           ),
                         )),
-                    verticalGap(10.sp),
+                    verticalGap(18.sp),
                     Obx(() {
                       if (loginController.isLoading.value) {
                         return Center(
                           child: Container(
                             padding: EdgeInsets.all(5.sp),
-                            height: 50.sp,
+                            height: 46.sp,
                             width: 50.sp,
                             child: CircularProgressIndicator(
                               color: AppColors.primaryColor,
@@ -93,7 +125,7 @@ class LoginView extends StatelessWidget {
                       } else {
                         return GlobalButton(
                           width: double.infinity,
-                          height: 50.sp,
+                          height: 46.sp,
                           text: "Login",
                           onTap: () {
                             if (loginController.formKey.currentState!
@@ -104,17 +136,21 @@ class LoginView extends StatelessWidget {
                         );
                       }
                     }),
-                    verticalGap(5.sp),
+                    verticalGap(8.sp),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       textDirection: multiLangualDataController.isLTR.value
                           ? TextDirection.ltr
                           : TextDirection.rtl,
                       children: [
-                        GlobalText(
-                          text: "Dont have an account?",
-                          softWrap: true,
-                          style: TextStyle(fontSize: 13.sp),
+                        Flexible(
+                          child: GlobalText(
+                            text: "Dont have an account?",
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(fontSize: 13.sp),
+                          ),
                         ),
                         TextButton(
                           onPressed: () {

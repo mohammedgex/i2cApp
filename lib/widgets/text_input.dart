@@ -45,13 +45,9 @@ class CustomTextField extends StatelessWidget {
           .getVisibility(keyName); // Get visibility state for this field
 
       return Directionality(
-        textDirection: multiLangualDataController.isLTR.value
-            ? TextDirection.ltr
-            : TextDirection.rtl,
+        textDirection: TextDirection.rtl,
         child: TextFormField(
-          textDirection: multiLangualDataController.isLTR.value
-              ? TextDirection.ltr
-              : TextDirection.rtl,
+          textDirection: TextDirection.rtl,
           obscureText: obscureText == false ? false : isObscure,
           minLines: minLines,
           maxLines: maxLines,
@@ -70,13 +66,11 @@ class CustomTextField extends StatelessWidget {
                       textfieldController.toggle(keyName);
                     },
                   ),
-            hintTextDirection: multiLangualDataController.isLTR.value
-                ? TextDirection.ltr
-                : TextDirection.rtl,
+            hintTextDirection: TextDirection.rtl,
             hintText: translatedText,
             hintStyle: TextStyle(
               color: AppColors.hintTextColor,
-              fontSize: 16.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
             ),
             filled: true,
@@ -84,26 +78,26 @@ class CustomTextField extends StatelessWidget {
             border: OutlineInputBorder(
               borderSide: BorderSide(
                 color: AppColors.textFieldBorderColor,
-                width: 1.5,
+                width: 1,
               ),
-              borderRadius: BorderRadius.circular(20.sp),
+              borderRadius: BorderRadius.circular(10.sp),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: AppColors.textFieldBorderColor,
-                width: 1.5,
+                width: 1,
               ),
-              borderRadius: BorderRadius.circular(20.sp),
+              borderRadius: BorderRadius.circular(10.sp),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: AppColors.primaryColor,
-                width: 2.5,
+                width: 1.5,
               ),
-              borderRadius: BorderRadius.circular(20.sp),
+              borderRadius: BorderRadius.circular(10.sp),
             ),
             contentPadding:
-                EdgeInsets.symmetric(vertical: 20.sp, horizontal: 20.sp),
+                EdgeInsets.symmetric(vertical: 13.sp, horizontal: 14.sp),
           ),
           controller: controller,
           keyboardType: inputType,

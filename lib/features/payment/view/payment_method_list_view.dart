@@ -48,7 +48,7 @@ class PaymentMethodListView extends StatelessWidget {
     PaymentUrlController paymentUrlController,
   ) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.sp),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,12 +61,13 @@ class PaymentMethodListView extends StatelessWidget {
               horizontalPadding: 0,
               isShowbackButton: true,
             ),
-            verticalGap(10.sp),
+            verticalGap(8.h),
             GlobalText(
               text: "Payment Methods",
               softWrap: true,
               style: TextStyle(
-                fontSize: 13.sp,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w700,
                 color: AppColors.titleTextColor,
               ),
             ),
@@ -104,11 +105,12 @@ class PaymentMethodListView extends StatelessWidget {
 
         return Container(
           width: double.infinity,
-          padding: EdgeInsets.all(10.sp),
-          margin: EdgeInsets.only(bottom: 10.sp),
+          padding: EdgeInsets.all(12.w),
+          margin: EdgeInsets.only(bottom: 8.h),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.sp),
-            color: AppColors.nuralItemBackgroundColor,
+            borderRadius: BorderRadius.circular(12.r),
+            color: AppColors.cardBackgroundColor,
+            border: Border.all(color: AppColors.textFieldBorderColor),
           ),
           child: Row(
             textDirection: multiLangualDataController.isLTR.value
@@ -116,11 +118,11 @@ class PaymentMethodListView extends StatelessWidget {
                 : TextDirection.rtl,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(10.sp),
+                borderRadius: BorderRadius.circular(8.r),
                 child: Image.network(
                   method.logo,
-                  height: 50.sp,
-                  width: 100.sp,
+                  height: 44.h,
+                  width: 88.w,
                 ),
               ),
               horizontalGap(10.sp),
