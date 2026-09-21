@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/features/cart/controller/cart_list_controller.dart';
 import 'package:skill_grow/widgets/custom_slider.dart';
@@ -24,6 +25,38 @@ class CartView extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     CartListController cartListController = Get.put(CartListController());
+
+    if (PriceAccessHelper.shouldHideCart()) {
+      return Scaffold(
+        body: ColorfulSafeArea(
+          bottom: false,
+          color: AppColors.scaffoldBackgroundColor,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MyCustomAppBar(
+                  verticalPadding: 0,
+                  horizontalPadding: 15.sp,
+                  isShowbackButton: true,
+                  isShowNotification: false,
+                ),
+                Spacer(),
+                GlobalText(
+                  text: "السلة غير متاحة لهذا المستخدم",
+                  softWrap: true,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Spacer(),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
 
     return Obx(() {
       if (cartListController.isLoading.value) {
@@ -217,26 +250,31 @@ class CartView extends StatelessWidget {
                                                         ? TextDirection.ltr
                                                         : TextDirection.rtl,
                                                 children: [
-                                                  cart.discount == 0
-                                                      ? Container()
-                                                      : GlobalText(
-                                                          text: cart.discount
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                              fontSize: 10.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color: AppColors
-                                                                  .titleTextColor),
-                                                          softWrap: true,
-                                                        ),
-                                                  horizontalGap(3.sp),
+                                                  if (!PriceAccessHelper
+                                                      .isFreeAccessEnabled()) ...[
+                                                    cart.discount == 0
+                                                        ? Container()
+                                                        : GlobalText(
+                                                            text: cart.discount
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough,
+                                                                fontSize: 10.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: AppColors
+                                                                    .titleTextColor),
+                                                            softWrap: true,
+                                                          ),
+                                                    horizontalGap(3.sp),
+                                                  ],
                                                   GlobalText(
-                                                    text: cart.price.toString(),
+                                                    text: PriceAccessHelper
+                                                        .formatPrice(
+                                                            cart.price),
                                                     style: TextStyle(
                                                         fontSize: 16.sp,
                                                         fontWeight:
@@ -274,16 +312,16 @@ class CartView extends StatelessWidget {
                 ),
               ),
               child: Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
+                  child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Row(
                   textDirection: multiLangualDataController.isLTR.value
                       ? TextDirection.ltr
                       : TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: GlobalText(
+                        child: GlobalText(
                       text: "الإجمالي الفرعي",
                       softWrap: true,
                       style: TextStyle(
@@ -293,9 +331,13 @@ class CartView extends StatelessWidget {
                       ),
                     )),
                     GlobalText(
-                      text: cartListController.cartData.value.totalAmount.toString(),
+                      text: PriceAccessHelper.isFreeAccessEnabled()
+                          ? 'مجاني'
+                          : cartListController.cartData.value.totalAmount
+                              .toString(),
                       softWrap: false,
-                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16.sp),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800, fontSize: 16.sp),
                     ),
                     horizontalGap(14.w),
                     Bounceable(

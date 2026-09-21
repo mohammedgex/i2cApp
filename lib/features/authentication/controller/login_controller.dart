@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/sharedPref.dart';
+import 'package:skill_grow/core/services/fcm_token_service.dart';
+import 'package:skill_grow/core/services/push_notifications_service.dart';
 import 'package:skill_grow/features/authentication/service/login_service.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
@@ -57,19 +59,29 @@ class LoginController extends GetxController {
       final response = await LoginService().login(requestModel);
 
       if (response.status == 'success') {
-        // Handle success, navigate to home
+        await SharedPrefUtil.put('token', response.bearerToken);
+        await SharedPrefUtil.put('isLoggedin', true);
 
-        SharedPrefUtil.put('token', response.bearerToken);
-        SharedPrefUtil.put('isLoggedin', true);
+        await PushNotificationsService.instance.init(force: true);
+        await FcmTokenService.updateFcmToken();
 
         customSnackbar(
-            title: "Success",
-            message: response.message.toString(),
-            type: CustomSnackbarType.success);
+          title: "Success",
+          message: response.message.toString(),
+          type: CustomSnackbarType.success,
+        );
+
+        Get.offAll(() => CustomPersistentBottomNavBar());
+        emailController.clear();
+        passwordController.clear();
+        return;
       }
-      Get.offAll(() => CustomPersistentBottomNavBar());
-      emailController.clear();
-      passwordController.clear();
+
+      customSnackbar(
+        title: "Error",
+        message: response.message.toString(),
+        type: CustomSnackbarType.failed,
+      );
     } catch (e) {
       log(e.toString());
     } finally {

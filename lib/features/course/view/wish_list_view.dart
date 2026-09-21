@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/features/course/controller/wish_list_controller.dart';
@@ -210,28 +211,32 @@ class WishListView extends StatelessWidget {
                                                         ? TextDirection.ltr
                                                         : TextDirection.rtl,
                                                 children: [
-                                                  wishItem.discount == 0
-                                                      ? Container()
-                                                      : GlobalText(
-                                                          text: wishItem
-                                                              .discount
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                              fontSize: 10.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color: AppColors
-                                                                  .titleTextColor),
-                                                          softWrap: true,
-                                                        ),
-                                                  horizontalGap(3.sp),
+                                                  if (!PriceAccessHelper
+                                                      .isFreeAccessEnabled()) ...[
+                                                    wishItem.discount == 0
+                                                        ? Container()
+                                                        : GlobalText(
+                                                            text: wishItem
+                                                                .discount
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough,
+                                                                fontSize: 10.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: AppColors
+                                                                    .titleTextColor),
+                                                            softWrap: true,
+                                                          ),
+                                                    horizontalGap(3.sp),
+                                                  ],
                                                   GlobalText(
-                                                    text: wishItem.price
-                                                        .toString(),
+                                                    text: PriceAccessHelper
+                                                        .formatPrice(
+                                                            wishItem.price),
                                                     style: TextStyle(
                                                         fontSize: 15.sp,
                                                         fontWeight:

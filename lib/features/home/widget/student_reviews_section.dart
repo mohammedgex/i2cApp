@@ -21,6 +21,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
     _StudentReview(
       name: 'كريم محمود',
       course: 'دورة صيانة الموبايل',
+      avatarUrl: 'https://i.pravatar.cc/150?img=12',
       comment:
           'بصراحة المهندس هاني شرحه جامد جدًا، وبيوصل المعلومة بطريقة بسيطة من غير تعقيد. أنا كنت فاكر الموضوع صعب بس مع الشرح والتطبيق بدأت أفهم الدنيا واحدة واحدة.',
       rating: 5.0,
@@ -28,6 +29,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
     _StudentReview(
       name: 'عبدالله العتيبي',
       course: 'دورة احتراف صيانة الجوال',
+      avatarUrl: 'https://i.pravatar.cc/150?img=33',
       comment:
           'صراحة من أفضل التجارب التعليمية اللي مريت فيها، شرح المهندس هاني واضح جدًا وتعاملهم راقي. استفدت بشكل كبير وحسيت إن المحتوى مرتب والتطبيق العملي فرق معي كثير.',
       rating: 5.0,
@@ -35,6 +37,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
     _StudentReview(
       name: 'مصطفى الكعبي',
       course: 'دورة أعطال الموبايل المتقدمة',
+      avatarUrl: 'https://i.pravatar.cc/150?img=68',
       comment:
           'بصراحة المهندس هاني ما قصر ويانا، شرحه واضح وسلس ويخليك تفهم المعلومة من أول مرة. والأكاديمية تعاملهم كلش زين، واستفاديت منهم هواي وأنصح أي واحد يريد يتعلم بشكل صحيح يجرب وياهم.',
       rating: 5.0,
@@ -42,6 +45,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
     _StudentReview(
       name: 'محمد إبراهيم',
       course: 'دورة صيانة الموبايل العملية',
+      avatarUrl: 'https://i.pravatar.cc/150?img=15',
       comment:
           'تجربتي مع I2C كانت حلوة جدًا، والمهندس هاني بجد بيهتم إنك تفهم مش تحفظ وخلاص. أي حاجة كانت بتقف معايا كنت بسأل وبلاقي شرح ومتابعة، ربنا يكرمه بجد.',
       rating: 5.0,
@@ -91,7 +95,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
           ),
           SizedBox(height: 14.sp),
           SizedBox(
-            height: 166.sp,
+            height: 172.sp,
             child: PageView.builder(
               controller: _pageController,
               itemCount: _reviews.length,
@@ -141,11 +145,7 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
           value = currentPage - _currentPage;
           value = (1 - (value.abs() * 0.15)).clamp(0.85, 1.0).toDouble();
         }
-
-        return Transform.scale(
-          scale: value,
-          child: child,
-        );
+        return Transform.scale(scale: value, child: child);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 6.sp),
@@ -161,49 +161,59 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
           children: [
             Row(
               textDirection: isLTR ? TextDirection.ltr : TextDirection.rtl,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                _Avatar(
+                    imageUrl:
+                        "https://static.vecteezy.com/system/resources/thumbnails/028/149/251/small/3d-user-profile-icon-png.png"),
+                SizedBox(width: 10.w),
                 Expanded(
-                  child: GlobalText(
-                    text: review.name,
-                    softWrap: true,
-                    style: TextStyle(
-                      color: AppColors.titleTextColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: isLTR
+                        ? CrossAxisAlignment.start
+                        : CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GlobalText(
+                        text: review.name,
+                        softWrap: true,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: AppColors.titleTextColor,
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+                      GlobalText(
+                        text: review.course,
+                        softWrap: true,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: AppColors.smallTextColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(width: 8.sp),
-                CustomRatingBar(
-                  rating: review.rating,
-                  maxRating: 5,
-                  iconSize: 16.sp,
-                  filledColor: AppColors.activeIconColor,
-                  unfilledColor: AppColors.inactiveIconColor,
                 ),
               ],
             ),
-            SizedBox(height: 4.sp),
-            GlobalText(
-              text: review.course,
-              softWrap: true,
-              style: TextStyle(
-                color: AppColors.smallTextColor,
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(height: 8.sp),
+            SizedBox(height: 10.h),
             Expanded(
               child: GlobalText(
                 text: review.comment,
                 softWrap: true,
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: AppColors.smallTextColor,
-                  fontSize: 14.sp,
+                  fontSize: 13.5.sp,
                   fontWeight: FontWeight.w400,
-                  height: 1.35,
+                  height: 1.45,
                 ),
               ),
             ),
@@ -214,16 +224,64 @@ class _StudentReviewsSectionState extends State<StudentReviewsSection> {
   }
 }
 
+/// صورة الأفاتار الدائرية — لو الصورة مش متاحة بتظهر أيقونة شخص
+class _Avatar extends StatelessWidget {
+  final String? imageUrl;
+
+  const _Avatar({this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 42.w,
+      width: 42.w,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.transparent,
+      ),
+      child: ClipOval(
+        child: (imageUrl != null && imageUrl!.isNotEmpty)
+            ? Image.network(
+                imageUrl!,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return _fallback();
+                },
+                errorBuilder: (_, __, ___) => _fallback(),
+              )
+            : _fallback(),
+      ),
+    );
+  }
+
+  Widget _fallback() {
+    return Container(
+      color: AppColors.primaryColorLight,
+      alignment: Alignment.center,
+      child: Icon(
+        Icons.person_rounded,
+        size: 24.sp,
+        color: AppColors.primaryColor,
+      ),
+    );
+  }
+}
+
 class _StudentReview {
   final String name;
   final String course;
   final String comment;
   final double rating;
+  final String? avatarUrl;
 
   const _StudentReview({
     required this.name,
     required this.course,
     required this.comment,
     required this.rating,
+    this.avatarUrl,
   });
 }

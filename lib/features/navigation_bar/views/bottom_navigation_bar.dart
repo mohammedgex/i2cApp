@@ -49,25 +49,30 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 18.h, right: 6.w),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                FloatingActionButton(
+                _buildFloatingLabelButton(
                   heroTag: 'boot-analysis-button',
-                  onPressed: () => Get.to(() => const BootAnalysisWebView()),
-                  backgroundColor: AppColors.primaryColor,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  mini: true,
-                  child: const Icon(
+                  label: 'تحليل UART Logs',
+                  backgroundColor: AppColors.secondaryColor,
+                  icon: const Icon(
                     Icons.phone_android_rounded,
                     color: Colors.white,
+                    size: 18,
                   ),
+                  onTap: () => Get.to(() => const BootAnalysisWebView()),
                 ),
                 SizedBox(height: 10.h),
-                FloatingActionButton(
+                _buildFloatingLabelButton(
                   heroTag: 'whatsapp-button',
-                  onPressed: () async {
+                  label: 'واتساب',
+                  backgroundColor: const Color.fromARGB(255, 20, 171, 75),
+                  icon: const FaIcon(
+                    FontAwesomeIcons.whatsapp,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                  onTap: () async {
                     const whatsappNumber = '201013770998';
                     final whatsappUrl = 'https://wa.me/$whatsappNumber';
                     if (await canLaunchUrlString(whatsappUrl)) {
@@ -80,16 +85,6 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
                       );
                     }
                   },
-                  backgroundColor: const Color.fromARGB(255, 20, 171, 75),
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  mini: true,
-                  child: const FaIcon(
-                    FontAwesomeIcons.whatsapp,
-                    color: Colors.white,
-                  ),
                 ),
               ],
             ),
@@ -118,6 +113,54 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
     });
   }
 
+  Widget _buildFloatingLabelButton({
+    required String heroTag,
+    required String label,
+    required Color backgroundColor,
+    required Widget icon,
+    required VoidCallback onTap,
+  }) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.r),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: GlobalText(
+            text: label,
+            style: TextStyle(
+              color: AppColors.titleTextColor,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        SizedBox(width: 8.w),
+        FloatingActionButton(
+          heroTag: heroTag,
+          onPressed: onTap,
+          backgroundColor: backgroundColor,
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          mini: true,
+          child: icon,
+        ),
+      ],
+    );
+  }
+
   // Reusable method for navigation items
   Widget _buildNavItem(int index, String iconPath, String label) {
     final bool isSelected = _controller.currentIndex.value == index;
@@ -137,7 +180,9 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
               height: 30.sp,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.primaryColorLight : Colors.transparent,
+                color: isSelected
+                    ? AppColors.primaryColorLight
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(9.r),
               ),
               child: SvgPicture.asset(

@@ -137,85 +137,88 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                   ),
-                  if (showLanguageCurrency) ...[
-                    verticalGap(22.h),
-                    GlobalText(
-                      text: "Language and Currency",
-                      softWrap: true,
-                      style: TextStyle(
-                        color: AppColors.titleTextColor,
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    verticalGap(8.h),
-                    Bounceable(
-                      onTap: () {
-                        Get.to(() => LanguageListView());
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 52.h,
-                        decoration: BoxDecoration(
-                          color: AppColors.cardBackgroundColor,
-                          borderRadius: BorderRadius.circular(12.r),
-                          border: Border.all(color: AppColors.textFieldBorderColor),
-                        ),
-                        child: Row(
-                          textDirection: multiLangualDataController.isLTR.value
-                              ? TextDirection.ltr
-                              : TextDirection.rtl,
-                          children: [
-                            horizontalGap(10.sp),
-                            GlobalText(text: "Language", softWrap: true),
-                            horizontalGap(10.sp),
-                            Obx(() => Text("( ${language.value} )")),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: AppColors.titleTextColor,
-                              size: 15.sp,
-                            ),
-                            horizontalGap(10.sp),
-                          ],
-                        ),
-                      ),
-                    ),
-                    verticalGap(8.h),
-                    Bounceable(
-                      onTap: () {
-                        Get.to(() => CurrencyListView());
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 52.h,
-                        decoration: BoxDecoration(
-                          color: AppColors.cardBackgroundColor,
-                          borderRadius: BorderRadius.circular(12.r),
-                          border: Border.all(color: AppColors.textFieldBorderColor),
-                        ),
-                        child: Row(
-                          textDirection: multiLangualDataController.isLTR.value
-                              ? TextDirection.ltr
-                              : TextDirection.rtl,
-                          children: [
-                            horizontalGap(10.sp),
-                            GlobalText(text: "Currency", softWrap: true),
-                            horizontalGap(10.sp),
-                            Obx(() => Text("( ${currencyCode.value} )")),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: AppColors.titleTextColor,
-                              size: 15.sp,
-                            ),
-                            horizontalGap(10.sp),
-                          ],
-                        ),
-                      ),
-                    ),
-                    verticalGap(20.sp),
-                  ],
+                  // if (showLanguageCurrency) ...[
+                  //   verticalGap(22.h),
+                  //   GlobalText(
+                  //     text: "Language and Currency",
+                  //     softWrap: true,
+                  //     style: TextStyle(
+                  //       color: AppColors.titleTextColor,
+                  //       fontSize: 15.sp,
+                  //       fontWeight: FontWeight.w700,
+                  //     ),
+                  //   ),
+                  //   verticalGap(8.h),
+                  //   Bounceable(
+                  //     onTap: () {
+                  //       Get.to(() => LanguageListView());
+                  //     },
+                  //     child: Container(
+                  //       width: double.infinity,
+                  //       height: 52.h,
+                  //       decoration: BoxDecoration(
+                  //         color: AppColors.cardBackgroundColor,
+                  //         borderRadius: BorderRadius.circular(12.r),
+                  //         border:
+                  //             Border.all(color: AppColors.textFieldBorderColor),
+                  //       ),
+                  //       child: Row(
+                  //         textDirection: multiLangualDataController.isLTR.value
+                  //             ? TextDirection.ltr
+                  //             : TextDirection.rtl,
+                  //         children: [
+                  //           horizontalGap(10.sp),
+                  //           GlobalText(text: "Language", softWrap: true),
+                  //           horizontalGap(10.sp),
+                  //           Obx(() => Text("( ${language.value} )")),
+                  //           Spacer(),
+                  //           Icon(
+                  //             Icons.arrow_forward_ios,
+                  //             color: AppColors.titleTextColor,
+                  //             size: 15.sp,
+                  //           ),
+                  //           horizontalGap(10.sp),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   verticalGap(8.h),
+                  //   Bounceable(
+                  //     onTap: () {
+                  //       Get.to(() => CurrencyListView());
+                  //     },
+                  //     child: Container(
+                  //       width: double.infinity,
+                  //       height: 52.h,
+                  //       decoration: BoxDecoration(
+                  //         color: AppColors.cardBackgroundColor,
+                  //         borderRadius: BorderRadius.circular(12.r),
+                  //         border:
+                  //             Border.all(color: AppColors.textFieldBorderColor),
+                  //       ),
+                  //       child: Row(
+                  //         textDirection: multiLangualDataController.isLTR.value
+                  //             ? TextDirection.ltr
+                  //             : TextDirection.rtl,
+                  //         children: [
+                  //           horizontalGap(10.sp),
+                  //           GlobalText(text: "Currency", softWrap: true),
+                  //           horizontalGap(10.sp),
+                  //           Obx(() => Text("( ${currencyCode.value} )")),
+                  //           Spacer(),
+                  //           Icon(
+                  //             Icons.arrow_forward_ios,
+                  //             color: AppColors.titleTextColor,
+                  //             size: 15.sp,
+                  //           ),
+                  //           horizontalGap(10.sp),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   verticalGap(20.sp),
+                  // ],
+                  verticalGap(22.h),
                   GlobalText(text: "Account", softWrap: true),
                   verticalGap(10.sp),
                   Bounceable(
@@ -228,7 +231,8 @@ class _ProfileViewState extends State<ProfileView> {
                       decoration: BoxDecoration(
                         color: AppColors.cardBackgroundColor,
                         borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: AppColors.textFieldBorderColor),
+                        border:
+                            Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -261,7 +265,8 @@ class _ProfileViewState extends State<ProfileView> {
                       decoration: BoxDecoration(
                         color: AppColors.cardBackgroundColor,
                         borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: AppColors.textFieldBorderColor),
+                        border:
+                            Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -292,7 +297,8 @@ class _ProfileViewState extends State<ProfileView> {
                       decoration: BoxDecoration(
                         color: AppColors.cardBackgroundColor,
                         borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: AppColors.textFieldBorderColor),
+                        border:
+                            Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -325,7 +331,8 @@ class _ProfileViewState extends State<ProfileView> {
                       decoration: BoxDecoration(
                         color: AppColors.cardBackgroundColor,
                         borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: AppColors.textFieldBorderColor),
+                        border:
+                            Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -357,7 +364,8 @@ class _ProfileViewState extends State<ProfileView> {
                       decoration: BoxDecoration(
                         color: AppColors.cardBackgroundColor,
                         borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: AppColors.textFieldBorderColor),
+                        border:
+                            Border.all(color: AppColors.textFieldBorderColor),
                       ),
                       child: Row(
                         textDirection: multiLangualDataController.isLTR.value
@@ -406,6 +414,42 @@ class _ProfileViewState extends State<ProfileView> {
                           Spacer(),
                           Icon(
                             Icons.arrow_forward_ios,
+                            color: AppColors.mainRedColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
+                    ),
+                  ),
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      showDeleteAccountDialog(context);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 52.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.cardBackgroundColor,
+                        border: Border.all(
+                            color: AppColors.mainRedColor, width: 0.5.sp),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(
+                            text: "Delete Account",
+                            softWrap: true,
+                            style: TextStyle(color: AppColors.mainRedColor),
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.delete_forever_rounded,
                             color: AppColors.mainRedColor,
                             size: 15.sp,
                           ),

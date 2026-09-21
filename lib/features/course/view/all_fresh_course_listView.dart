@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/features/course/controller/fresh_course_conroller.dart';
 import 'package:skill_grow/features/course/view/course_details.dart';
@@ -274,11 +275,12 @@ class AllFreshCourseListview extends StatelessWidget {
                                                             ),
                                                       horizontalGap(3.sp),
                                                       GlobalText(
-                                                        text:
-                                                            freshCourseConroller
-                                                                .courses[index]
-                                                                .price
-                                                                .toString(),
+                                                        text: PriceAccessHelper
+                                                            .formatPrice(
+                                                          freshCourseConroller
+                                                              .courses[index]
+                                                              .price,
+                                                        ),
                                                         style: TextStyle(
                                                             fontSize: 15.sp,
                                                             fontWeight:

@@ -12,6 +12,8 @@ class ApiEndpoint {
   static const String resetPasswordUrl = '$API_BASE_URL/reset-password';
   static const String logoutUrl = '$API_BASE_URL/logout';
   static const String logoutFromAllDevicesUrl = '$API_BASE_URL/logout/all-app';
+  static const String updateFcmTokenUrl = '$API_BASE_URL/update-fcm-token';
+  static const String deleteAccountUrl = '$API_BASE_URL/delete-account';
 
   // Global User URLs
   static const String settingsUrl = '$API_BASE_URL/settings';

@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:skill_grow/features/mulit_langual_data/service/multi_langual_data_service.dart';
 
-import '../../../core/Global/sharedPref.dart';
-
 class MultiLangualDataController extends GetxController {
   MultiLangualDataService languageService = MultiLangualDataService();
   RxMap<String, dynamic> multiLangualData = <String, dynamic>{}.obs;

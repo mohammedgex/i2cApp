@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/sharedPref.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
+import 'package:skill_grow/core/services/push_notifications_service.dart';
 import 'package:skill_grow/splash_screen.dart';
 
 import 'firebase_options.dart';
@@ -19,20 +21,17 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // The academy uses Egyptian pounds across all catalog and checkout screens.
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await PushNotificationsService.instance.init();
+
   await SharedPrefUtil.put('currency_code', 'EGP');
   await SharedPrefUtil.put('currency_name', 'الجنيه المصري');
   await SharedPrefUtil.put('language_code', 'ar');
   await SharedPrefUtil.put('text_direction', 'rtl');
-
-  // Setup FCM + local notifications
-  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-  // await PushNotificationsService.instance.init();
 
   runApp(Phoenix(child: MyApp()));
 }

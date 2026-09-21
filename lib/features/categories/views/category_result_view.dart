@@ -4,6 +4,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/features/course/view/course_details.dart';
@@ -239,25 +240,30 @@ class CategoryResultView extends StatelessWidget {
                                                       ? TextDirection.ltr
                                                       : TextDirection.rtl,
                                               children: [
-                                                result.discount == 0
-                                                    ? Container()
-                                                    : GlobalText(
-                                                        text: result.discount,
-                                                        style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough,
-                                                          fontSize: 10.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: AppColors
-                                                              .titleTextColor,
+                                                if (!PriceAccessHelper
+                                                    .isFreeAccessEnabled()) ...[
+                                                  result.discount == 0
+                                                      ? Container()
+                                                      : GlobalText(
+                                                          text: result.discount,
+                                                          style: TextStyle(
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough,
+                                                            fontSize: 10.sp,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: AppColors
+                                                                .titleTextColor,
+                                                          ),
+                                                          softWrap: true,
                                                         ),
-                                                        softWrap: true,
-                                                      ),
-                                                horizontalGap(3.sp),
+                                                  horizontalGap(3.sp),
+                                                ],
                                                 GlobalText(
-                                                  text: result.price,
+                                                  text: PriceAccessHelper
+                                                      .formatPrice(
+                                                          result.price),
                                                   style: TextStyle(
                                                     fontSize: 15.sp,
                                                     fontWeight: FontWeight.w600,

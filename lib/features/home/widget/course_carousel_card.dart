@@ -3,6 +3,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 
@@ -147,7 +148,7 @@ class CourseCarouselCard extends StatelessWidget {
                   unfilledColor: AppColors.textFieldBorderColor,
                 ),
                 GlobalText(
-                  text: '${course.price}',
+                  text: PriceAccessHelper.formatPrice(course.price),
                   softWrap: false,
                   style: TextStyle(
                     color: AppColors.primaryColor,

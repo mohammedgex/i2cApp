@@ -13,6 +13,7 @@ import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/cart/controller/add_to_cart_controller.dart';
 import 'package:skill_grow/features/course/controller/course_details_controller.dart';
 import 'package:skill_grow/features/course/controller/toggle_wish_controller.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/features/course/widget/course_info.dart';
 import 'package:skill_grow/features/course/widget/loading_ui.dart';
 import 'package:skill_grow/features/course/widget/toggle_widget.dart';
@@ -40,6 +41,7 @@ class CourseDetailsView extends StatelessWidget {
     FreeVideoPlayController freevideoPlayController =
         Get.put(FreeVideoPlayController());
     RxBool isShowVideo = false.obs;
+    final bool isFreeAccess = PriceAccessHelper.isFreeAccessEnabled();
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -382,9 +384,11 @@ class CourseDetailsView extends StatelessWidget {
                                   children: [
                                     FittedBox(
                                       child: GlobalText(
-                                        text: courseDetalisController
-                                                .course.value?.price ??
-                                            "N/A",
+                                        text: isFreeAccess
+                                            ? 'مجاني'
+                                            : (courseDetalisController
+                                                    .course.value?.price ??
+                                                "N/A"),
                                         softWrap: true,
                                         style: TextStyle(
                                           fontSize: 20.sp,
@@ -392,25 +396,27 @@ class CourseDetailsView extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    horizontalGap(5.sp),
-                                    FittedBox(
-                                      child: courseDetalisController
-                                                  .course.value?.discount ==
-                                              0
-                                          ? Container()
-                                          : GlobalText(
-                                              text: courseDetalisController
-                                                      .course.value?.discount ??
-                                                  "N/A",
-                                              softWrap: true,
-                                              style: TextStyle(
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w400,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
+                                    if (!isFreeAccess) ...[
+                                      horizontalGap(5.sp),
+                                      FittedBox(
+                                        child: courseDetalisController
+                                                    .course.value?.discount ==
+                                                0
+                                            ? Container()
+                                            : GlobalText(
+                                                text: courseDetalisController
+                                                        .course.value?.discount ??
+                                                    "N/A",
+                                                softWrap: true,
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  decoration:
+                                                      TextDecoration.lineThrough,
+                                                ),
                                               ),
-                                            ),
-                                    ),
+                                      ),
+                                    ],
                                   ],
                                 )
                               ],
@@ -426,14 +432,16 @@ class CourseDetailsView extends StatelessWidget {
                               );
                             } else {
                               return Bounceable(
-                                onTap: () {
-                                  addToCartController.addToCart(slug);
-                                },
+                                onTap: isFreeAccess
+                                    ? null
+                                    : () => addToCartController.addToCart(slug),
                                 child: Container(
                                   height: 46.h,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: AppColors.primaryColor,
+                                    color: isFreeAccess
+                                        ? AppColors.primaryColor
+                                        : AppColors.primaryColor,
                                     border: Border.all(
                                         color: AppColors.primaryColor,
                                         width: 1),
@@ -441,7 +449,7 @@ class CourseDetailsView extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: GlobalText(
-                                      text: "إضافة إلى السلة",
+                                      text: isFreeAccess ? "مجاني" : "إضافة إلى السلة",
                                       softWrap: true,
                                       style: TextStyle(
                                         fontSize: 14.sp,

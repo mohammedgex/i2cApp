@@ -3,6 +3,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/features/cart/view/cart_view.dart';
 import 'package:skill_grow/features/course/view/wish_list_view.dart';
 
@@ -87,25 +88,27 @@ class MyCustomAppBar extends StatelessWidget {
                     iconAsset: AppIcon.addwishIcon,
                     onTap: () => Get.to(() => WishListView()),
                   ),
-                  SizedBox(width: 8.w),
-                  _iconButton(
-                    iconAsset: AppIcon.cartIcon,
-                    onTap: () => Get.to(() => CartView()),
-                    badge: Obx(() {
-                      if (cartListController.isLoading.value) {
-                        return const SizedBox.shrink();
-                      }
-                      return Text(
-                        cartListController.cartData.value.cartCourses.length
-                            .toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 8.sp,
-                        ),
-                      );
-                    }),
-                  ),
+                  if (!PriceAccessHelper.shouldHideCart()) ...[
+                    SizedBox(width: 8.w),
+                    _iconButton(
+                      iconAsset: AppIcon.cartIcon,
+                      onTap: () => Get.to(() => CartView()),
+                      badge: Obx(() {
+                        if (cartListController.isLoading.value) {
+                          return const SizedBox.shrink();
+                        }
+                        return Text(
+                          cartListController.cartData.value.cartCourses.length
+                              .toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 8.sp,
+                          ),
+                        );
+                      }),
+                    ),
+                  ],
                 ],
               ),
             ),

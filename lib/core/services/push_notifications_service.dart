@@ -1,76 +1,141 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:skill_grow/core/services/fcm_token_service.dart';
 
-/// Background handler for Firebase Messaging
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // You can add background handling here if needed (logging, analytics, etc.)
+  debugPrint('Background message received: ${message.messageId}');
+  await PushNotificationsService.instance.showLocalNotification(message);
 }
 
 class PushNotificationsService {
   PushNotificationsService._();
+
   static final PushNotificationsService instance = PushNotificationsService._();
 
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  static const AndroidNotificationChannel _channel = AndroidNotificationChannel(
+    'skill_grow_default_channel',
+    'Skill Grow Notifications',
+    description: 'Important updates and alerts from the app.',
+    importance: Importance.max,
+  );
+
   bool _initialized = false;
 
-  Future<void> init() async {
-    if (_initialized) return;
+  Future<void> init({bool force = false}) async {
+    if (_initialized && !force) {
+      return;
+    }
 
-    // iOS / Android 13+ permission
-    await _messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-
-    // Setup local notifications
-    const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-
-    const InitializationSettings initSettings =
-        InitializationSettings(android: androidSettings);
-
-    await _localNotificationsPlugin.initialize(initSettings);
-
-    // Foreground message handler
-    FirebaseMessaging.onMessage.listen(_onForegroundMessage);
-
-    // Optional: get FCM token for debugging
-    final token = await _messaging.getToken();
-    debugPrint('FCM Token: $token');
-
-    _initialized = true;
-  }
-
-  void _onForegroundMessage(RemoteMessage message) {
-    final notification = message.notification;
-    final android = notification?.android;
-
-    if (notification != null && android != null) {
-      const AndroidNotificationDetails androidDetails =
-          AndroidNotificationDetails(
-        'default_channel',
-        'General Notifications',
-        channelDescription: 'Default channel for app notifications',
-        importance: Importance.max,
-        priority: Priority.high,
+    try {
+      await _messaging.requestPermission(
+        alert: true,
+        announcement: true,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
       );
 
-      const NotificationDetails platformDetails =
-          NotificationDetails(android: androidDetails);
+      // ⬇️⬇️⬇️ السطر الناقص ⬇️⬇️⬇️
+      await _messaging.subscribeToTopic('all_users');
+      debugPrint('✅ Subscribed to topic: all_users');
+      // ⬆️⬆️⬆️ السطر الناقص ⬆️⬆️⬆️
 
-      _localNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        platformDetails,
+      await _messaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
       );
+
+      await _localNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(_channel);
+
+      const AndroidInitializationSettings androidSettings =
+          AndroidInitializationSettings('@mipmap/ic_launcher');
+      const DarwinInitializationSettings iosSettings =
+          DarwinInitializationSettings();
+
+      const InitializationSettings initSettings = InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      );
+
+      await _localNotificationsPlugin.initialize(
+        initSettings,
+        onDidReceiveNotificationResponse: _handleNotificationTap,
+      );
+
+      FirebaseMessaging.onMessage.listen((message) async {
+        await showLocalNotification(message);
+      });
+      FirebaseMessaging.onMessageOpenedApp.listen(_onOpenedAppMessage);
+
+      final initialMessage = await _messaging.getInitialMessage();
+      if (initialMessage != null) {
+        _onOpenedAppMessage(initialMessage);
+      }
+
+      _messaging.onTokenRefresh.listen((token) async {
+        await FcmTokenService.updateFcmToken(token: token);
+      });
+
+      await FcmTokenService.updateFcmToken();
+
+      _initialized = true;
+    } catch (error) {
+      debugPrint('PushNotificationsService.init error: $error');
+      rethrow;
     }
   }
-}
 
+  Future<void> showLocalNotification(RemoteMessage message) async {
+    final title = message.notification?.title ??
+        message.data['title'] ??
+        'New notification';
+    final body = message.notification?.body ??
+        message.data['body'] ??
+        'You have a new update';
+
+    final androidDetails = AndroidNotificationDetails(
+      _channel.id,
+      _channel.name,
+      channelDescription: _channel.description,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
+    );
+
+    final platformDetails = NotificationDetails(android: androidDetails);
+
+    await _localNotificationsPlugin.show(
+      message.messageId?.hashCode ?? DateTime.now().millisecondsSinceEpoch,
+      title,
+      body,
+      platformDetails,
+      payload: message.data.toString(),
+    );
+  }
+
+  void _onOpenedAppMessage(RemoteMessage message) {
+    if (Get.context == null) {
+      return;
+    }
+
+    final payload = message.data['screen'];
+    debugPrint('Notification opened: $payload');
+  }
+
+  static void _handleNotificationTap(NotificationResponse response) {
+    debugPrint('Notification tapped with payload: ${response.payload}');
+  }
+}
