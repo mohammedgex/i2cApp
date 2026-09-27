@@ -1,5 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/services/fcm_token_service.dart';
@@ -29,6 +29,11 @@ class PushNotificationsService {
   bool _initialized = false;
 
   Future<void> init({bool force = false}) async {
+    if (kIsWeb) {
+      _initialized = true;
+      return;
+    }
+
     if (_initialized && !force) {
       return;
     }

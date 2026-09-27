@@ -27,17 +27,24 @@ class InitialTumbnailUI extends StatelessWidget {
     ToggleWishController toggleWishController = Get.put(ToggleWishController());
     return Stack(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10.sp),
-          child: Image.network(
-            ApiEndpoint.BASE_URL + thumbnailImage,
-            fit: BoxFit.cover,
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.sp),
+            child: Image.network(
+              ApiEndpoint.BASE_URL + thumbnailImage,
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.sp),
-              color: const Color.fromARGB(90, 0, 0, 0)),
+              color: const Color.fromARGB(90, 0, 0, 0),
+            ),
+          ),
         ),
         if (isShowWishIcon)
           Obx(() {

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/features/course/controller/course_details_controller.dart';
 import 'package:skill_grow/features/course/controller/toggle_controller.dart';
@@ -25,6 +26,7 @@ class ToggleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final FreeVideoPlayController freevideoPlayController =
         Get.put(FreeVideoPlayController());
+    final bool canPlayAllLessons = PriceAccessHelper.isFreeAccessEnabled();
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     ToggleController toggleController = ToggleController();
@@ -235,7 +237,8 @@ class ToggleWidget extends StatelessWidget {
                                   curriculums.chapters.length, (index) {
                                 var chapter = curriculums.chapters[index];
                                 if (chapter.type == "lesson") {
-                                  if (chapter.lesson!.isFree == true) {
+                                  if (chapter.lesson!.isFree == true ||
+                                      canPlayAllLessons) {
                                     return Bounceable(
                                       onTap: () {
                                         freevideoPlayController
@@ -244,9 +247,19 @@ class ToggleWidget extends StatelessWidget {
                                           "slug": courseDetalisController.slug,
                                           "type": "lesson"
                                         };
-                                        freevideoPlayController.fetchVideoFile(
-                                          id: chapter.lesson!.id.toString(),
-                                        );
+                                        if (canPlayAllLessons) {
+                                          freevideoPlayController
+                                              .fetchEnrolledLessonFile(
+                                            id: chapter.lesson!.id.toString(),
+                                            slug: courseDetalisController.slug,
+                                            type: "lesson",
+                                          );
+                                        } else {
+                                          freevideoPlayController
+                                              .fetchVideoFile(
+                                            id: chapter.lesson!.id.toString(),
+                                          );
+                                        }
                                       },
                                       child: Container(
                                         margin: EdgeInsets.symmetric(
@@ -300,12 +313,15 @@ class ToggleWidget extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(fontSize: 10.sp),
                                         ),
-                                        trailing: SizedBox(
-                                          height: 17.sp,
-                                          width: 17.sp,
-                                          child: SvgPicture.asset(
-                                            AppIcon.lockIcon,
-                                            color: AppColors.activeIconColor,
+                                        trailing: PriceAccessHelper
+                                            .hideCommercialContent(
+                                          SizedBox(
+                                            height: 17.sp,
+                                            width: 17.sp,
+                                            child: SvgPicture.asset(
+                                              AppIcon.lockIcon,
+                                              color: AppColors.activeIconColor,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -332,12 +348,15 @@ class ToggleWidget extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 10.sp),
                                       ),
-                                      trailing: SizedBox(
-                                        height: 17.sp,
-                                        width: 17.sp,
-                                        child: SvgPicture.asset(
-                                          AppIcon.lockIcon,
-                                          color: AppColors.activeIconColor,
+                                      trailing: PriceAccessHelper
+                                          .hideCommercialContent(
+                                        SizedBox(
+                                          height: 17.sp,
+                                          width: 17.sp,
+                                          child: SvgPicture.asset(
+                                            AppIcon.lockIcon,
+                                            color: AppColors.activeIconColor,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -363,12 +382,15 @@ class ToggleWidget extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 10.sp),
                                       ),
-                                      trailing: SizedBox(
-                                        height: 17.sp,
-                                        width: 17.sp,
-                                        child: SvgPicture.asset(
-                                          AppIcon.lockIcon,
-                                          color: AppColors.activeIconColor,
+                                      trailing: PriceAccessHelper
+                                          .hideCommercialContent(
+                                        SizedBox(
+                                          height: 17.sp,
+                                          width: 17.sp,
+                                          child: SvgPicture.asset(
+                                            AppIcon.lockIcon,
+                                            color: AppColors.activeIconColor,
+                                          ),
                                         ),
                                       ),
                                     ),

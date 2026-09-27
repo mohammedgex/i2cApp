@@ -233,47 +233,53 @@ class CategoryResultView extends StatelessWidget {
                                                   AppColors.activeIconColor,
                                             ),
                                             const Spacer(),
-                                            Row(
-                                              textDirection:
-                                                  multiLangualDataController
-                                                          .isLTR.value
-                                                      ? TextDirection.ltr
-                                                      : TextDirection.rtl,
-                                              children: [
-                                                if (!PriceAccessHelper
-                                                    .isFreeAccessEnabled()) ...[
-                                                  result.discount == 0
-                                                      ? Container()
-                                                      : GlobalText(
-                                                          text: result.discount,
-                                                          style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            fontSize: 10.sp,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .titleTextColor,
+                                            PriceAccessHelper
+                                                .hideCommercialContent(
+                                              Row(
+                                                textDirection:
+                                                    multiLangualDataController
+                                                            .isLTR.value
+                                                        ? TextDirection.ltr
+                                                        : TextDirection.rtl,
+                                                children: [
+                                                  if (!PriceAccessHelper
+                                                      .isFreeAccessEnabled()) ...[
+                                                    result.discount == 0
+                                                        ? Container()
+                                                        : GlobalText(
+                                                            text:
+                                                                result.discount,
+                                                            style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              fontSize: 10.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: AppColors
+                                                                  .titleTextColor,
+                                                            ),
+                                                            softWrap: true,
                                                           ),
-                                                          softWrap: true,
-                                                        ),
-                                                  horizontalGap(3.sp),
-                                                ],
-                                                GlobalText(
-                                                  text: PriceAccessHelper
-                                                      .formatPrice(
-                                                          result.price),
-                                                  style: TextStyle(
-                                                    fontSize: 15.sp,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: AppColors
-                                                        .titleTextColor,
+                                                    horizontalGap(3.sp),
+                                                  ],
+                                                  GlobalText(
+                                                    text: PriceAccessHelper
+                                                        .formatPrice(
+                                                            result.price),
+                                                    style: TextStyle(
+                                                      fontSize: 15.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: AppColors
+                                                          .titleTextColor,
+                                                    ),
+                                                    softWrap: true,
                                                   ),
-                                                  softWrap: true,
-                                                ),
-                                                horizontalGap(5.sp),
-                                              ],
+                                                  horizontalGap(5.sp),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),

@@ -204,49 +204,53 @@ class WishListView extends StatelessWidget {
                                                     AppColors.activeIconColor,
                                               ),
                                               Spacer(),
-                                              Row(
-                                                textDirection:
-                                                    multiLangualDataController
-                                                            .isLTR.value
-                                                        ? TextDirection.ltr
-                                                        : TextDirection.rtl,
-                                                children: [
-                                                  if (!PriceAccessHelper
-                                                      .isFreeAccessEnabled()) ...[
-                                                    wishItem.discount == 0
-                                                        ? Container()
-                                                        : GlobalText(
-                                                            text: wishItem
-                                                                .discount
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .lineThrough,
-                                                                fontSize: 10.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: AppColors
-                                                                    .titleTextColor),
-                                                            softWrap: true,
-                                                          ),
-                                                    horizontalGap(3.sp),
+                                              PriceAccessHelper
+                                                  .hideCommercialContent(
+                                                Row(
+                                                  textDirection:
+                                                      multiLangualDataController
+                                                              .isLTR.value
+                                                          ? TextDirection.ltr
+                                                          : TextDirection.rtl,
+                                                  children: [
+                                                    if (!PriceAccessHelper
+                                                        .isFreeAccessEnabled()) ...[
+                                                      wishItem.discount == 0
+                                                          ? Container()
+                                                          : GlobalText(
+                                                              text: wishItem
+                                                                  .discount
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .lineThrough,
+                                                                  fontSize:
+                                                                      10.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppColors
+                                                                      .titleTextColor),
+                                                              softWrap: true,
+                                                            ),
+                                                      horizontalGap(3.sp),
+                                                    ],
+                                                    GlobalText(
+                                                      text: PriceAccessHelper
+                                                          .formatPrice(
+                                                              wishItem.price),
+                                                      style: TextStyle(
+                                                          fontSize: 15.sp,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: AppColors
+                                                              .titleTextColor),
+                                                      softWrap: true,
+                                                    ),
+                                                    horizontalGap(5.sp),
                                                   ],
-                                                  GlobalText(
-                                                    text: PriceAccessHelper
-                                                        .formatPrice(
-                                                            wishItem.price),
-                                                    style: TextStyle(
-                                                        fontSize: 15.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: AppColors
-                                                            .titleTextColor),
-                                                    softWrap: true,
-                                                  ),
-                                                  horizontalGap(5.sp),
-                                                ],
+                                                ),
                                               )
                                             ],
                                           ),

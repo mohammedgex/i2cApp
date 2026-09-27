@@ -8,6 +8,10 @@ class FcmTokenService {
   const FcmTokenService._();
 
   static Future<void> updateFcmToken({String? token}) async {
+    if (kIsWeb) {
+      return;
+    }
+
     try {
       final fcmToken = token ?? await FirebaseMessaging.instance.getToken();
       if (fcmToken == null || fcmToken.trim().isEmpty) {

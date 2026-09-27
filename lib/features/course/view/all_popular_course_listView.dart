@@ -243,56 +243,63 @@ class AllPopularCourseListview extends StatelessWidget {
                                                         .activeIconColor,
                                                   ),
                                                   Spacer(),
-                                                  Row(
-                                                    textDirection:
-                                                        multiLangualDataController
-                                                                .isLTR.value
-                                                            ? TextDirection.ltr
-                                                            : TextDirection.rtl,
-                                                    children: [
-                                                      popularCourseController
-                                                                  .courses[
-                                                                      index]
-                                                                  .discount ==
-                                                              0
-                                                          ? Container()
-                                                          : GlobalText(
-                                                              text: popularCourseController
-                                                                  .courses[
-                                                                      index]
-                                                                  .discount
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  decoration:
-                                                                      TextDecoration
-                                                                          .lineThrough,
-                                                                  fontSize:
-                                                                      10.sp,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  color: AppColors
-                                                                      .titleTextColor),
-                                                              softWrap: true,
-                                                            ),
-                                                      horizontalGap(3.sp),
-                                                      GlobalText(
-                                                        text: PriceAccessHelper
-                                                            .formatPrice(
-                                                          popularCourseController
-                                                              .courses[index]
-                                                              .price,
+                                                  PriceAccessHelper
+                                                      .hideCommercialContent(
+                                                    Row(
+                                                      textDirection:
+                                                          multiLangualDataController
+                                                                  .isLTR.value
+                                                              ? TextDirection
+                                                                  .ltr
+                                                              : TextDirection
+                                                                  .rtl,
+                                                      children: [
+                                                        popularCourseController
+                                                                    .courses[
+                                                                        index]
+                                                                    .discount ==
+                                                                0
+                                                            ? Container()
+                                                            : GlobalText(
+                                                                text: popularCourseController
+                                                                    .courses[
+                                                                        index]
+                                                                    .discount
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .lineThrough,
+                                                                    fontSize:
+                                                                        10.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: AppColors
+                                                                        .titleTextColor),
+                                                                softWrap: true,
+                                                              ),
+                                                        horizontalGap(3.sp),
+                                                        GlobalText(
+                                                          text:
+                                                              PriceAccessHelper
+                                                                  .formatPrice(
+                                                            popularCourseController
+                                                                .courses[index]
+                                                                .price,
+                                                          ),
+                                                          style: TextStyle(
+                                                              fontSize: 15.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: AppColors
+                                                                  .smallTextColor),
+                                                          softWrap: true,
                                                         ),
-                                                        style: TextStyle(
-                                                            fontSize: 15.sp,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .smallTextColor),
-                                                        softWrap: true,
-                                                      ),
-                                                      horizontalGap(5.sp),
-                                                    ],
+                                                        horizontalGap(5.sp),
+                                                      ],
+                                                    ),
                                                   )
                                                 ],
                                               ),

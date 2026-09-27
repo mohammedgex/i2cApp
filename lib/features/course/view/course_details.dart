@@ -41,7 +41,24 @@ class CourseDetailsView extends StatelessWidget {
     FreeVideoPlayController freevideoPlayController =
         Get.put(FreeVideoPlayController());
     RxBool isShowVideo = false.obs;
-    final bool isFreeAccess = PriceAccessHelper.isFreeAccessEnabled();
+
+    Future<void> playCourseLesson(String lessonId) async {
+      freevideoPlayController.initialVideoDetails.value = {
+        "id": lessonId,
+        "slug": slug,
+        "type": "lesson",
+      };
+
+      if (PriceAccessHelper.isFreeAccessEnabled()) {
+        await freevideoPlayController.fetchEnrolledLessonFile(
+          id: lessonId,
+          slug: slug,
+          type: "lesson",
+        );
+      } else {
+        await freevideoPlayController.fetchVideoFile(id: lessonId);
+      }
+    }
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -55,6 +72,7 @@ class CourseDetailsView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
+            final bool isFreeAccess = PriceAccessHelper.isFreeAccessEnabled();
             final userId =
                 profileDataCotroller.userDataResponse.value!.data.id.toString();
             final courseDetalisController =
@@ -108,15 +126,15 @@ class CourseDetailsView extends StatelessWidget {
                                       .course.value!.thumbnail,
                                   wishOntap: () {},
                                   playOntap: () {
-                                    freevideoPlayController.fetchVideoFile(
-                                        id: courseDetalisController
-                                            .course
-                                            .value!
-                                            .curriculums[0]
-                                            .chapters[0]
-                                            .lesson!
-                                            .id
-                                            .toString());
+                                    final lesson = courseDetalisController
+                                        .course
+                                        .value!
+                                        .curriculums[0]
+                                        .chapters[0]
+                                        .lesson;
+                                    if (lesson != null) {
+                                      playCourseLesson(lesson.id.toString());
+                                    }
                                   });
                             } else {
                               if (freevideoPlayController.videoFile.value !=
@@ -157,23 +175,8 @@ class CourseDetailsView extends StatelessWidget {
                                                   .chapters[j]
                                                   .type ==
                                               "lesson") {
-                                            freevideoPlayController
-                                                .initialVideoDetails.value = {
-                                              "id": courseDetalisController
-                                                  .course
-                                                  .value!
-                                                  .curriculums[i]
-                                                  .chapters[j]
-                                                  .lesson!
-                                                  .id
-                                                  .toString(),
-                                              "slug":
-                                                  courseDetalisController.slug,
-                                              "type": "lesson"
-                                            };
-                                            freevideoPlayController
-                                                .fetchVideoFile(
-                                              id: courseDetalisController
+                                            playCourseLesson(
+                                              courseDetalisController
                                                   .course
                                                   .value!
                                                   .curriculums[i]
@@ -332,71 +335,69 @@ class CourseDetailsView extends StatelessWidget {
                     verticalGap(14.h),
                     CourseInfo(
                         courseDetalisController: courseDetalisController),
-                    verticalGap(12.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 64.h,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.sp),
-                            ),
-                            child: Column(
-                              textDirection:
-                                  multiLangualDataController.isLTR.value
-                                      ? TextDirection.ltr
-                                      : TextDirection.rtl,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    text: "السعر",
-                                    style: TextStyle(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.smallTextColor,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: " :",
-                                        style: TextStyle(
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColors.primaryColor,
-                                        ),
+                    if (!isFreeAccess) ...[
+                      verticalGap(12.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 64.h,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5.sp),
+                              ),
+                              child: Column(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "السعر",
+                                      style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.smallTextColor,
                                       ),
-                                    ],
+                                      children: [
+                                        TextSpan(
+                                          text: " :",
+                                          style: TextStyle(
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.primaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Wrap(
-                                  textDirection:
-                                      multiLangualDataController.isLTR.value
-                                          ? TextDirection.ltr
-                                          : TextDirection.rtl,
-                                  crossAxisAlignment: WrapCrossAlignment.end,
-                                  children: [
-                                    FittedBox(
-                                      child: GlobalText(
-                                        text: isFreeAccess
-                                            ? 'مجاني'
-                                            : (courseDetalisController
-                                                    .course.value?.price ??
-                                                "N/A"),
-                                        softWrap: true,
-                                        style: TextStyle(
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.w800,
+                                  Wrap(
+                                    textDirection:
+                                        multiLangualDataController.isLTR.value
+                                            ? TextDirection.ltr
+                                            : TextDirection.rtl,
+                                    crossAxisAlignment: WrapCrossAlignment.end,
+                                    children: [
+                                      FittedBox(
+                                        child: GlobalText(
+                                          text: courseDetalisController
+                                                  .course.value?.price ??
+                                              "N/A",
+                                          softWrap: true,
+                                          style: TextStyle(
+                                            fontSize: 20.sp,
+                                            fontWeight: FontWeight.w800,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    if (!isFreeAccess) ...[
                                       horizontalGap(5.sp),
                                       FittedBox(
                                         child: courseDetalisController
@@ -405,67 +406,66 @@ class CourseDetailsView extends StatelessWidget {
                                             ? Container()
                                             : GlobalText(
                                                 text: courseDetalisController
-                                                        .course.value?.discount ??
+                                                        .course
+                                                        .value
+                                                        ?.discount ??
                                                     "N/A",
                                                 softWrap: true,
                                                 style: TextStyle(
                                                   fontSize: 12.sp,
                                                   fontWeight: FontWeight.w400,
-                                                  decoration:
-                                                      TextDecoration.lineThrough,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
                                                 ),
                                               ),
                                       ),
                                     ],
-                                  ],
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        horizontalGap(10.sp),
-                        Expanded(
-                          child: Obx(() {
-                            if (addToCartController.isLoading.value) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else {
-                              return Bounceable(
-                                onTap: isFreeAccess
-                                    ? null
-                                    : () => addToCartController.addToCart(slug),
-                                child: Container(
-                                  height: 46.h,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: isFreeAccess
-                                        ? AppColors.primaryColor
-                                        : AppColors.primaryColor,
-                                    border: Border.all(
-                                        color: AppColors.primaryColor,
-                                        width: 1),
-                                    borderRadius: BorderRadius.circular(10.r),
-                                  ),
-                                  child: Center(
-                                    child: GlobalText(
-                                      text: isFreeAccess ? "مجاني" : "إضافة إلى السلة",
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
+                          horizontalGap(10.sp),
+                          Expanded(
+                            child: Obx(() {
+                              if (addToCartController.isLoading.value) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Bounceable(
+                                  onTap: () =>
+                                      addToCartController.addToCart(slug),
+                                  child: Container(
+                                    height: 46.h,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryColor,
+                                      border: Border.all(
+                                          color: AppColors.primaryColor,
+                                          width: 1),
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                    child: Center(
+                                      child: GlobalText(
+                                        text: "إضافة إلى السلة",
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }
-                          }),
-                        ),
-                        // horizontalGap(10.sp),
-                      ],
-                    ),
+                                );
+                              }
+                            }),
+                          ),
+                          // horizontalGap(10.sp),
+                        ],
+                      ),
+                    ],
                     ToggleWidget(
                       courseDetalisController: courseDetalisController,
                     ),

@@ -88,27 +88,33 @@ class MyCustomAppBar extends StatelessWidget {
                     iconAsset: AppIcon.addwishIcon,
                     onTap: () => Get.to(() => WishListView()),
                   ),
-                  if (!PriceAccessHelper.shouldHideCart()) ...[
-                    SizedBox(width: 8.w),
-                    _iconButton(
-                      iconAsset: AppIcon.cartIcon,
-                      onTap: () => Get.to(() => CartView()),
-                      badge: Obx(() {
-                        if (cartListController.isLoading.value) {
-                          return const SizedBox.shrink();
-                        }
-                        return Text(
-                          cartListController.cartData.value.cartCourses.length
-                              .toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 8.sp,
-                          ),
-                        );
-                      }),
+                  PriceAccessHelper.hideCommercialContent(
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(width: 8.w),
+                        _iconButton(
+                          iconAsset: AppIcon.cartIcon,
+                          onTap: () => Get.to(() => CartView()),
+                          badge: Obx(() {
+                            if (cartListController.isLoading.value) {
+                              return const SizedBox.shrink();
+                            }
+                            return Text(
+                              cartListController
+                                  .cartData.value.cartCourses.length
+                                  .toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 8.sp,
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ],
               ),
             ),

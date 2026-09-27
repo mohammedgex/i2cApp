@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
 
@@ -5,7 +6,7 @@ class PriceAccessHelper {
   // أضف هنا البريد أو الأيميلات المسموح لها بمشاهدة الأسعار كـ "مجاني".
   static const List<String> _freeAccessEmails = [
     'mohammedelabud9@gmail.com',
-    'buraidah@demo.com',
+    'hanim3253@gmail.com',
   ];
 
   static ProfileDataCotroller? _getProfileController() {
@@ -34,13 +35,24 @@ class PriceAccessHelper {
         .any((email) => email.trim().toLowerCase() == currentEmail);
   }
 
-  static bool shouldHideCart() => isFreeAccessEnabled();
-
-  static String formatPrice(dynamic price, {String fallback = 'مجاني'}) {
-    if (isFreeAccessEnabled()) {
-      return 'مجاني';
+  static bool shouldHideCommercialInfo() {
+    final controller = _getProfileController();
+    if (controller != null &&
+        controller.isLoading.value &&
+        controller.userDataResponse.value == null) {
+      return true;
     }
 
+    return isFreeAccessEnabled();
+  }
+
+  static bool shouldHideCart() => shouldHideCommercialInfo();
+
+  static Widget hideCommercialContent(Widget child) => Obx(
+        () => shouldHideCommercialInfo() ? const SizedBox.shrink() : child,
+      );
+
+  static String formatPrice(dynamic price, {String fallback = 'مجاني'}) {
     if (price == null) {
       return fallback;
     }

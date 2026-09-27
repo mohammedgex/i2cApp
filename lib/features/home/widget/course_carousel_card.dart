@@ -147,13 +147,15 @@ class CourseCarouselCard extends StatelessWidget {
                   filledColor: AppColors.primaryColor,
                   unfilledColor: AppColors.textFieldBorderColor,
                 ),
-                GlobalText(
-                  text: PriceAccessHelper.formatPrice(course.price),
-                  softWrap: false,
-                  style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w800,
+                PriceAccessHelper.hideCommercialContent(
+                  GlobalText(
+                    text: PriceAccessHelper.formatPrice(course.price),
+                    softWrap: false,
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ],

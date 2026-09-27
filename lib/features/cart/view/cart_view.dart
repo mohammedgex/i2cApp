@@ -26,39 +26,30 @@ class CartView extends StatelessWidget {
         Get.put(MultiLangualDataController());
     CartListController cartListController = Get.put(CartListController());
 
-    if (PriceAccessHelper.shouldHideCart()) {
-      return Scaffold(
-        body: ColorfulSafeArea(
-          bottom: false,
-          color: AppColors.scaffoldBackgroundColor,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MyCustomAppBar(
-                  verticalPadding: 0,
-                  horizontalPadding: 15.sp,
-                  isShowbackButton: true,
-                  isShowNotification: false,
-                ),
-                Spacer(),
-                GlobalText(
-                  text: "السلة غير متاحة لهذا المستخدم",
-                  softWrap: true,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
+    return Obx(() {
+      if (PriceAccessHelper.shouldHideCart()) {
+        return Scaffold(
+          body: ColorfulSafeArea(
+            bottom: false,
+            color: AppColors.scaffoldBackgroundColor,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MyCustomAppBar(
+                    verticalPadding: 0,
+                    horizontalPadding: 15.sp,
+                    isShowbackButton: true,
+                    isShowNotification: false,
                   ),
-                ),
-                Spacer(),
-              ],
+                  Spacer(),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    }
+        );
+      }
 
-    return Obx(() {
       if (cartListController.isLoading.value) {
         return Scaffold(
           body: Center(
