@@ -167,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                 GlobalText(
                   text: "View All",
                   style: TextStyle(
-                    color: AppColors.primaryColorLight,
+                    color: Colors.white,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w700,
                   ),

@@ -29,7 +29,11 @@ Future<void> main() async {
   if (!kIsWeb) {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
-  // await PushNotificationsService.instance.init();
+  try {
+    await PushNotificationsService.instance.init();
+  } catch (error) {
+    debugPrint('Notification initialization failed: $error');
+  }
 
   await SharedPrefUtil.put('currency_code', 'EGP');
   await SharedPrefUtil.put('currency_name', 'الجنيه المصري');

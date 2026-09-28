@@ -3,9 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/services/fcm_token_service.dart';
+import '../../firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await PushNotificationsService.instance.initializeLocalNotifications();
   debugPrint('Background message received: ${message.messageId}');
   await PushNotificationsService.instance.showLocalNotification(message);
 }
@@ -27,6 +33,23 @@ class PushNotificationsService {
   );
 
   bool _initialized = false;
+
+  Future<void> initializeLocalNotifications() async {
+    const AndroidInitializationSettings androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const DarwinInitializationSettings iosSettings =
+        DarwinInitializationSettings();
+    const InitializationSettings initSettings = InitializationSettings(
+      android: androidSettings,
+      iOS: iosSettings,
+    );
+
+    await _localNotificationsPlugin.initialize(initSettings);
+    await _localNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(_channel);
+  }
 
   Future<void> init({bool force = false}) async {
     if (kIsWeb) {
@@ -60,23 +83,12 @@ class PushNotificationsService {
         sound: true,
       );
 
-      await _localNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(_channel);
-
-      const AndroidInitializationSettings androidSettings =
-          AndroidInitializationSettings('@mipmap/ic_launcher');
-      const DarwinInitializationSettings iosSettings =
-          DarwinInitializationSettings();
-
-      const InitializationSettings initSettings = InitializationSettings(
-        android: androidSettings,
-        iOS: iosSettings,
-      );
-
+      await initializeLocalNotifications();
       await _localNotificationsPlugin.initialize(
-        initSettings,
+        const InitializationSettings(
+          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          iOS: DarwinInitializationSettings(),
+        ),
         onDidReceiveNotificationResponse: _handleNotificationTap,
       );
 

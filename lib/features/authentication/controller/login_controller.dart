@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -62,9 +63,6 @@ class LoginController extends GetxController {
         await SharedPrefUtil.put('token', response.bearerToken);
         await SharedPrefUtil.put('isLoggedin', true);
 
-        await PushNotificationsService.instance.init(force: true);
-        await FcmTokenService.updateFcmToken();
-
         customSnackbar(
           title: "Success",
           message: response.message.toString(),
@@ -74,6 +72,7 @@ class LoginController extends GetxController {
         Get.offAll(() => CustomPersistentBottomNavBar());
         emailController.clear();
         passwordController.clear();
+        unawaited(_initializeNotifications());
         return;
       }
 
@@ -86,6 +85,16 @@ class LoginController extends GetxController {
       log(e.toString());
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> _initializeNotifications() async {
+    try {
+      await PushNotificationsService.instance.init();
+      await FcmTokenService.updateFcmToken();
+    } catch (error, stackTrace) {
+      log('Notification setup failed after login: $error',
+          stackTrace: stackTrace);
     }
   }
 }
