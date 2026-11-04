@@ -157,32 +157,6 @@ class WishListView extends StatelessWidget {
                                                       color: AppColors
                                                           .titleTextColor),
                                                   softWrap: true),
-                                              GlobalText(
-                                                  text: "|",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
-                                              Text(wishItem.students.toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
-                                              GlobalText(
-                                                  text: "Students",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
                                             ],
                                           ),
                                           verticalGap(2.sp),

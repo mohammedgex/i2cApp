@@ -34,7 +34,7 @@ class SearchDataController extends getx.GetxController {
       searchResults.clear(); // Clear existing results
     }
 
-    var currencyCode = await SharedPrefUtil.get('currency_code', 'USD');
+    var currencyCode = await SharedPrefUtil.get('currency_code', 'EGP');
     isLoading.value = true;
     errorMessage.value = ''; // Clear any previous error messages
 

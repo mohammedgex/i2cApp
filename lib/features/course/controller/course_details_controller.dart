@@ -17,11 +17,11 @@ class CourseDetalisController extends GetxController {
 
   final ApiService _apiService = ApiService();
 
-  var currency_code = "USD";
+  var currency_code = "EGP";
 
   @override
   void onInit() async {
-    currency_code = await SharedPrefUtil.get('currency_code', 'USD');
+    currency_code = await SharedPrefUtil.get('currency_code', 'EGP');
     super.onInit();
     fetchCourseData(slug);
   }

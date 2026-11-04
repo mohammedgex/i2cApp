@@ -206,8 +206,7 @@ class CategoryResultView extends StatelessWidget {
                                         ),
                                         verticalGap(3.sp),
                                         GlobalText(
-                                          text:
-                                              '${result.instructor.name} | ${result.students} Students',
+                                          text: result.instructor.name,
                                           style: TextStyle(
                                             fontSize: 10.sp,
                                             fontWeight: FontWeight.w300,

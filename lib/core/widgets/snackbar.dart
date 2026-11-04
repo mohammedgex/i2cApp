@@ -16,11 +16,7 @@ customSnackbar(
     {required String title,
     required String message,
     required CustomSnackbarType type}) {
-  ScaffoldMessenger.of(Get.context!).showSnackBar(
-    
-    SnackBar(
-      
-    
+  ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
     content: CustomSnackbarContent(
       title: title,
       message: message,
@@ -120,8 +116,7 @@ class CustomSnackbarContent extends StatelessWidget {
             ),
           ),
           horizontalGap(15.sp),
-          SizedBox(
-            width: 210.sp,
+          Expanded(
             child: Column(
               textDirection: multiLangualDataController.isLTR.value
                   ? TextDirection.ltr
@@ -148,7 +143,6 @@ class CustomSnackbarContent extends StatelessWidget {
               ],
             ),
           ),
-          Spacer(),
           horizontalGap(15.sp),
           Bounceable(
               onTap: () {

@@ -15,7 +15,7 @@ class WishListController extends getx.GetxController {
       <WishListModel>[].obs; // Observable list to store wishlist items
   var isLoading = false.obs; // Observable to manage loading state
   var errorMessage = ''.obs; // Observable for error messages
-  var currencyCode = 'USD'.obs; // Observable for currency code
+  var currencyCode = 'EGP'.obs; // Observable for currency code
   var isDeleting = false.obs;
   @override
   void onInit() async {
@@ -26,7 +26,7 @@ class WishListController extends getx.GetxController {
 
   // Initialize currency code from shared preferences
   Future<void> _initializeCurrencyCode() async {
-    currencyCode.value = await SharedPrefUtil.get('currency_code', 'USD');
+    currencyCode.value = await SharedPrefUtil.get('currency_code', 'EGP');
   }
 
   // Fetch wishlist data from API

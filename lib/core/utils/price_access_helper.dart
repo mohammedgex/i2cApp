@@ -46,6 +46,8 @@ class PriceAccessHelper {
     return isFreeAccessEnabled();
   }
 
+  static bool shouldHideExternalLinks() => shouldHideCommercialInfo();
+
   static bool shouldHideCart() => shouldHideCommercialInfo();
 
   static Widget hideCommercialContent(Widget child) => Obx(

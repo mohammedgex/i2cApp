@@ -13,10 +13,10 @@ class SelectedCurrencyController extends GetxController {
 
   // Method to load the selected language from SharedPreferences
   void _loadSelectedLanguage() async {
-    String? language = await SharedPrefUtil.get('currency', 'USD');
+    String? currencyCode = await SharedPrefUtil.get('currency_code', 'EGP');
     int? index = await SharedPrefUtil.get('selected_index',
         0); // Assuming you're saving the index in SharedPreferences
-    if (language != null && language.isNotEmpty) {
+    if (currencyCode != null && currencyCode.isNotEmpty) {
       selectedIndex.value = index;
     }
   }

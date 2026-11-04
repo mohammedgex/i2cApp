@@ -50,16 +50,18 @@ class CartData {
 }
 
 class CartCourse {
+  final int? courseId;
   final String slug;
   final String title;
   final String thumbnail;
   final String price;
-  var  discount;
+  var discount;
   final Instructor instructor;
   final int students;
   final double averageRating;
 
   CartCourse({
+    required this.courseId,
     required this.slug,
     required this.title,
     required this.thumbnail,
@@ -71,20 +73,36 @@ class CartCourse {
   });
 
   factory CartCourse.fromJson(Map<String, dynamic> json) {
+    final Object? nestedCourse = json['course'] ?? json['course_data'];
+    final Object? nestedCourseId =
+        nestedCourse is Map ? nestedCourse['id'] : null;
+    final Object? courseId = json['course_id'] ?? nestedCourseId;
+    final Object? instructorData = json['instructor'];
     return CartCourse(
-      slug: json['slug'],
-      title: json['title'],
-      thumbnail: json['thumbnail'],
-      price: json['price'],
+      courseId: int.tryParse(courseId?.toString() ?? ''),
+      slug: json['slug']?.toString() ?? '',
+      title: json['title']?.toString() ?? '',
+      thumbnail: json['thumbnail']?.toString() ?? '',
+      price: json['price']?.toString() ?? '',
       discount: json['discount'],
-      instructor: Instructor.fromJson(json['instructor']),
-      students: json['students'],
-      averageRating: (json['average_rating'] as num).toDouble(),
+      instructor: Instructor.fromJson(
+        instructorData is Map
+            ? Map<String, dynamic>.from(instructorData)
+            : {
+                'id': json['instructor_id'],
+                'name': json['instructor_name'],
+                'image': json['instructor_image'],
+              },
+      ),
+      students: int.tryParse(json['students']?.toString() ?? '') ?? 0,
+      averageRating:
+          double.tryParse(json['average_rating']?.toString() ?? '') ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'course_id': courseId,
       'slug': slug,
       'title': title,
       'thumbnail': thumbnail,
@@ -106,9 +124,9 @@ class Instructor {
 
   factory Instructor.fromJson(Map<String, dynamic> json) {
     return Instructor(
-      id: json['id'],
-      name: json['name'],
-      image: json['image'],
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      name: json['name']?.toString() ?? '',
+      image: json['image']?.toString() ?? '',
     );
   }
 

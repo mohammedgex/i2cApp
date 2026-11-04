@@ -7,6 +7,7 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/features/currency/view/currency_list_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
@@ -255,38 +256,40 @@ class _ProfileViewState extends State<ProfileView> {
                   verticalGap(20.sp),
                   GlobalText(text: "Help and Support", softWrap: true),
                   verticalGap(10.sp),
-                  Bounceable(
-                    onTap: () {
-                      launchUrl(Uri.parse("${ApiEndpoint.BASE_URL}about-us"));
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 52.h,
-                      decoration: BoxDecoration(
-                        color: AppColors.cardBackgroundColor,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border:
-                            Border.all(color: AppColors.textFieldBorderColor),
-                      ),
-                      child: Row(
-                        textDirection: multiLangualDataController.isLTR.value
-                            ? TextDirection.ltr
-                            : TextDirection.rtl,
-                        children: [
-                          horizontalGap(10.sp),
-                          GlobalText(text: "معلومات عنا", softWrap: true),
-                          Spacer(),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.titleTextColor,
-                            size: 15.sp,
-                          ),
-                          horizontalGap(10.sp),
-                        ],
+                  if (!PriceAccessHelper.shouldHideExternalLinks()) ...[
+                    Bounceable(
+                      onTap: () {
+                        launchUrl(Uri.parse("${ApiEndpoint.BASE_URL}about-us"));
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 52.h,
+                        decoration: BoxDecoration(
+                          color: AppColors.cardBackgroundColor,
+                          borderRadius: BorderRadius.circular(12.r),
+                          border:
+                              Border.all(color: AppColors.textFieldBorderColor),
+                        ),
+                        child: Row(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          children: [
+                            horizontalGap(10.sp),
+                            GlobalText(text: "معلومات عنا", softWrap: true),
+                            Spacer(),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: AppColors.titleTextColor,
+                              size: 15.sp,
+                            ),
+                            horizontalGap(10.sp),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  verticalGap(10.sp),
+                    verticalGap(10.sp),
+                  ],
                   Bounceable(
                     onTap: () {
                       Get.to(() => FAQView());

@@ -9,6 +9,7 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
+import 'package:skill_grow/core/widgets/snackbar.dart';
 import 'package:skill_grow/features/cart/controller/cart_list_controller.dart';
 import 'package:skill_grow/widgets/custom_slider.dart';
 import '../../../core/constant/constant.dart';
@@ -57,7 +58,35 @@ class CartView extends StatelessWidget {
           ),
         );
       } else {
-        if (cartListController.cartData.value.cartCourses.isEmpty) {
+        if (cartListController.cartData.value.cartCourses.isEmpty &&
+            cartListController.errorMessage.isNotEmpty) {
+          return Scaffold(
+            body: ColorfulSafeArea(
+              bottom: false,
+              color: AppColors.scaffoldBackgroundColor,
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GlobalText(
+                      text: 'تعذر تحميل السلة',
+                      softWrap: true,
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    verticalGap(12.h),
+                    TextButton(
+                      onPressed: cartListController.fetchCartData,
+                      child: const Text('إعادة المحاولة'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        } else if (cartListController.cartData.value.cartCourses.isEmpty) {
           return Scaffold(
               body: ColorfulSafeArea(
             bottom: false,
@@ -188,32 +217,6 @@ class CartView extends StatelessWidget {
                                                       color: AppColors
                                                           .titleTextColor),
                                                   softWrap: true),
-                                              GlobalText(
-                                                  text: "|",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
-                                              Text(cart.students.toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
-                                              GlobalText(
-                                                  text: "Students",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
                                             ],
                                           ),
                                           verticalGap(2.sp),
@@ -333,7 +336,15 @@ class CartView extends StatelessWidget {
                     horizontalGap(14.w),
                     Bounceable(
                       onTap: () {
-                        Get.to(() => const ManualPaymentScreen());
+                        final cartCourses =
+                            cartListController.cartData.value.cartCourses;
+
+                        Get.to(
+                          () => ManualPaymentScreen(
+                            amount:
+                                cartListController.cartData.value.totalAmount,
+                          ),
+                        );
                       },
                       child: Container(
                         height: 46.h,

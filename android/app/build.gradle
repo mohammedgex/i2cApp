@@ -91,7 +91,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.i2cacademy.app"
-    compileSdk = 36
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

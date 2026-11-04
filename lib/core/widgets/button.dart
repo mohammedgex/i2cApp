@@ -29,7 +29,7 @@ class GlobalButton extends StatelessWidget {
     return Bounceable(
       onTap: onTap,
       child: Container(
-        height: height,
+        height: height * 0.92,
         width: width,
         decoration: BoxDecoration(
           color: color ?? AppColors.primaryColor,

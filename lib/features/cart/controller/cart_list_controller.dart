@@ -13,12 +13,12 @@ class CartListController extends GetxController {
   var cartData = CartData(totalQty: 0, totalAmount: '', cartCourses: []).obs;
   var isLoading = false.obs;
   var errorMessage = ''.obs;
-  var currency_code = 'USD';
+  var currency_code = 'EGP';
   var isDeleting = false.obs;
 
   @override
   void onInit() async {
-    currency_code = await SharedPrefUtil.get('currency_code', 'USD');
+    currency_code = await SharedPrefUtil.get('currency_code', 'EGP');
     super.onInit();
     fetchCartData();
   }
@@ -35,6 +35,7 @@ class CartListController extends GetxController {
 
       if (response != null && response.statusCode == 200) {
         var jsonData = response.data;
+        print("Cart Data: $jsonData");
         cartData.value = CartData.fromJson(jsonData['data']);
       } else {
         errorMessage.value = 'Failed to load cart data';
@@ -65,7 +66,7 @@ class CartListController extends GetxController {
           cart?.cartCourses.removeWhere((course) => course.slug == slug);
         });
 
-        fetchCartData();  
+        fetchCartData();
 
         customSnackbar(
           title: "Success",

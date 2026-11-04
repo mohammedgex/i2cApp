@@ -9,9 +9,11 @@ class AppColors {
   static Color accentColor = const Color(0xFF2D9C9C);
 
   // Background Colors - Softer and more eye-friendly
-  static Color scaffoldBackgroundColor = const Color(0xFFFAF9F6);
+  static Color scaffoldBackgroundColor =
+      const Color.fromARGB(255, 255, 255, 255);
   static Color cardBackgroundColor = const Color(0xFFFFFFFF);
-  static Color nuralItemBackgroundColor = const Color(0xFFF2F0EA);
+  static Color nuralItemBackgroundColor =
+      const Color.fromARGB(255, 255, 255, 255);
 
   // Text Colors - Softer and more readable
   static Color onboardingTitleTextColor = const Color(0xFF202A35);

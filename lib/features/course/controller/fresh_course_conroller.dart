@@ -12,12 +12,12 @@ class FreshCourseConroller extends getx.GetxController {
   var courses = <FreshCourseData>[].obs; // Observable list to store courses
   var isLoading = false.obs; // Observable to manage loading state
   var errorMessage = ''.obs; // Observable for error messages
-  var currency_code = 'USD';
+  var currency_code = 'EGP';
 
   @override
   void onInit() async {
     super.onInit();
-    currency_code = await SharedPrefUtil.get('currency_code', 'USD');
+    currency_code = await SharedPrefUtil.get('currency_code', 'EGP');
     fetchCourses();
   }
 

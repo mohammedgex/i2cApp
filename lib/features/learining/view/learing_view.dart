@@ -143,37 +143,6 @@ class LearingView extends StatelessWidget {
                                                       color: AppColors
                                                           .titleTextColor),
                                                   softWrap: true),
-                                              horizontalGap(5.sp),
-                                              GlobalText(
-                                                  text: '|',
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
-                                              horizontalGap(5.sp),
-                                              GlobalText(
-                                                  text:
-                                                      data.students.toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
-                                              horizontalGap(5.sp),
-                                              GlobalText(
-                                                  text: 'Students',
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .titleTextColor),
-                                                  softWrap: true),
                                             ],
                                           ),
                                           verticalGap(2.sp),

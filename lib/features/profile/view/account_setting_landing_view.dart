@@ -8,6 +8,7 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/snackbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
@@ -268,6 +269,8 @@ class AccountSettingLandingView extends StatelessWidget {
   }
 
   List<Widget> _buildSocialLinks() {
+    if (PriceAccessHelper.shouldHideExternalLinks()) return [];
+
     final userData = profileDataCotroller.userDataResponse.value?.data;
     if (userData == null) return [];
 

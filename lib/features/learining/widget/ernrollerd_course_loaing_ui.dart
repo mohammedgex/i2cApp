@@ -88,8 +88,7 @@ class ErnrollerdCourseLoaingUi extends StatelessWidget {
                                     ),
                                     verticalGap(3.sp),
                                     GlobalText(
-                                        text:
-                                            'Web Solution Us | 1000+ Students',
+                                        text: 'Web Solution Us',
                                         style: TextStyle(
                                             fontSize: 10.sp,
                                             fontWeight: FontWeight.w300,
@@ -139,6 +138,5 @@ class ErnrollerdCourseLoaingUi extends StatelessWidget {
         ),
       ),
     );
-    
   }
 }

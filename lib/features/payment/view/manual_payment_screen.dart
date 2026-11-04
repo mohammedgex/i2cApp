@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +11,12 @@ import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.d
 import 'package:skill_grow/features/payment/service/manual_payment_service.dart';
 
 class ManualPaymentScreen extends StatefulWidget {
-  const ManualPaymentScreen({Key? key}) : super(key: key);
+  final String amount;
+
+  const ManualPaymentScreen({
+    super.key,
+    required this.amount,
+  });
 
   @override
   State<ManualPaymentScreen> createState() => _ManualPaymentScreenState();
@@ -19,12 +24,12 @@ class ManualPaymentScreen extends StatefulWidget {
 
 class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
   final TextEditingController _accountController = TextEditingController();
-  final TextEditingController _amountController = TextEditingController();
   final ImagePicker _imagePicker = ImagePicker();
   final ManualPaymentService _manualPaymentService = ManualPaymentService();
 
   String? _selectedPaymentMethod;
-  File? _paymentReceipt;
+  XFile? _paymentReceipt;
+  Uint8List? _paymentReceiptBytes;
   bool _isSubmitting = false;
 
   final List<Map<String, String>> _paymentMethods = [
@@ -55,19 +60,42 @@ class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
   @override
   void dispose() {
     _accountController.dispose();
-    _amountController.dispose();
     super.dispose();
   }
 
   Future<void> _pickReceiptImage() async {
-    final XFile? result = await _imagePicker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
-    if (result != null) {
+    try {
+      final XFile? result = await _imagePicker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 80,
+      );
+      if (result == null) {
+        return;
+      }
+
+      final Uint8List bytes = await result.readAsBytes();
+      if (bytes.isEmpty) {
+        throw StateError('The selected receipt image is empty.');
+      }
+
+      if (!mounted) {
+        return;
+      }
+
       setState(() {
-        _paymentReceipt = File(result.path);
+        _paymentReceipt = result;
+        _paymentReceiptBytes = bytes;
       });
+    } catch (error) {
+      debugPrint('Receipt image selection failed: $error');
+      if (!mounted) {
+        return;
+      }
+      customSnackbar(
+        title: 'خطأ',
+        message: 'تعذر تحميل صورة الإيصال. اختر صورة أخرى وحاول مجددًا.',
+        type: CustomSnackbarType.failed,
+      );
     }
   }
 
@@ -90,26 +118,7 @@ class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
       return false;
     }
 
-    if (_amountController.text.trim().isEmpty) {
-      customSnackbar(
-        title: 'خطأ',
-        message: 'أدخل المبلغ.',
-        type: CustomSnackbarType.failed,
-      );
-      return false;
-    }
-
-    final double? amount = double.tryParse(_amountController.text.trim());
-    if (amount == null || amount <= 0) {
-      customSnackbar(
-        title: 'خطأ',
-        message: 'أدخل مبلغًا صالحًا أكبر من صفر.',
-        type: CustomSnackbarType.failed,
-      );
-      return false;
-    }
-
-    if (_paymentReceipt == null) {
+    if (_paymentReceipt == null || _paymentReceiptBytes == null) {
       customSnackbar(
         title: 'خطأ',
         message: 'اختر صورة الإيصال من المعرض.',
@@ -134,8 +143,8 @@ class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
       final response = await _manualPaymentService.submitManualPayment(
         paymentMethod: _selectedPaymentMethod!,
         accountNumber: _accountController.text.trim(),
-        amount: _amountController.text.trim(),
-        paymentReceipt: _paymentReceipt!,
+        paymentReceiptBytes: _paymentReceiptBytes!,
+        paymentReceiptFileName: _paymentReceipt!.name,
       );
 
       _showSuccessDialog(response);
@@ -416,6 +425,15 @@ class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
                 ),
                 SizedBox(height: 20.h),
                 GlobalText(
+                  text: 'المبلغ المطلوب تحويله: ${widget.amount}',
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.titleTextColor,
+                  ),
+                ),
+                SizedBox(height: 14.h),
+                GlobalText(
                   text: 'طريقة الدفع',
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -484,31 +502,6 @@ class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
                 ),
                 SizedBox(height: 14.h),
                 GlobalText(
-                  text: 'المبلغ',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.titleTextColor,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                TextFormField(
-                  controller: _amountController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColors.cardBackgroundColor,
-                    hintText: 'أدخل المبلغ',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide:
-                          BorderSide(color: AppColors.textFieldBorderColor),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 14.h),
-                GlobalText(
                   text: 'صورة الإيصال',
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -526,7 +519,7 @@ class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(color: AppColors.textFieldBorderColor),
                     ),
-                    child: _paymentReceipt == null
+                    child: _paymentReceiptBytes == null
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -548,8 +541,8 @@ class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(12.r),
-                            child: Image.file(
-                              _paymentReceipt!,
+                            child: Image.memory(
+                              _paymentReceiptBytes!,
                               fit: BoxFit.cover,
                               width: double.infinity,
                             ),
@@ -560,8 +553,8 @@ class _ManualPaymentScreenState extends State<ManualPaymentScreen> {
                 ElevatedButton(
                   onPressed: _isSubmitting ? null : _submitManualPayment,
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50.h),
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    minimumSize: Size(double.infinity, 46.h),
+                    padding: EdgeInsets.symmetric(vertical: 9.h),
                     backgroundColor: AppColors.primaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.r),

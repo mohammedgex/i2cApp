@@ -35,8 +35,11 @@ Future<void> main() async {
     debugPrint('Notification initialization failed: $error');
   }
 
-  await SharedPrefUtil.put('currency_code', 'EGP');
-  await SharedPrefUtil.put('currency_name', 'الجنيه المصري');
+  final String currencyCode = await SharedPrefUtil.get('currency_code', '');
+  if (currencyCode.isEmpty || currencyCode == 'USD') {
+    await SharedPrefUtil.put('currency_code', 'EGP');
+    await SharedPrefUtil.put('currency_name', 'الجنيه المصري');
+  }
   await SharedPrefUtil.put('language_code', 'ar');
   await SharedPrefUtil.put('text_direction', 'rtl');
 
@@ -76,9 +79,10 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.light,
               primary: AppColors.primaryColor,
               secondary: AppColors.secondaryColor,
-            ),
+            ).copyWith(surface: Colors.white),
             primaryColor: AppColors.primaryColor,
-            scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
+            canvasColor: Colors.white,
+            scaffoldBackgroundColor: Colors.white,
             cardColor: AppColors.cardBackgroundColor,
             appBarTheme: AppBarTheme(
               backgroundColor: AppColors.scaffoldBackgroundColor,
@@ -109,9 +113,9 @@ class MyApp extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                minimumSize: const Size(0, 48),
+                minimumSize: const Size(0, 44),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
                 textStyle: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
@@ -121,6 +125,9 @@ class MyApp extends StatelessWidget {
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.primaryColor,
+                minimumSize: const Size(0, 40),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -129,6 +136,9 @@ class MyApp extends StatelessWidget {
             outlinedButtonTheme: OutlinedButtonThemeData(
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.primaryColor,
+                minimumSize: const Size(0, 40),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

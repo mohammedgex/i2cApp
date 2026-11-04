@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:skill_grow/core/constant/constant.dart';
+import 'package:skill_grow/core/utils/price_access_helper.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/learining/view/learing_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
@@ -45,50 +46,52 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
         child: Scaffold(
           body: _screens[
               _controller.currentIndex.value], // Display current screen
-          floatingActionButton: Padding(
-            padding: EdgeInsets.only(bottom: 18.h, right: 6.w),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                _buildFloatingLabelButton(
-                  heroTag: 'boot-analysis-button',
-                  label: 'تحليل UART Logs',
-                  backgroundColor: AppColors.secondaryColor,
-                  icon: const Icon(
-                    Icons.phone_android_rounded,
-                    color: Colors.white,
-                    size: 18,
+          floatingActionButton: PriceAccessHelper.shouldHideExternalLinks()
+              ? null
+              : Padding(
+                  padding: EdgeInsets.only(bottom: 18.h, right: 6.w),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      _buildFloatingLabelButton(
+                        heroTag: 'boot-analysis-button',
+                        label: 'تحليل UART Logs',
+                        backgroundColor: AppColors.secondaryColor,
+                        icon: const Icon(
+                          Icons.phone_android_rounded,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                        onTap: () => Get.to(() => const BootAnalysisWebView()),
+                      ),
+                      SizedBox(height: 10.h),
+                      _buildFloatingLabelButton(
+                        heroTag: 'whatsapp-button',
+                        label: 'واتساب',
+                        backgroundColor: const Color.fromARGB(255, 20, 171, 75),
+                        icon: const FaIcon(
+                          FontAwesomeIcons.whatsapp,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                        onTap: () async {
+                          const whatsappNumber = '201013770998';
+                          final whatsappUrl = 'https://wa.me/$whatsappNumber';
+                          if (await canLaunchUrlString(whatsappUrl)) {
+                            await launchUrlString(whatsappUrl);
+                          } else {
+                            Get.snackbar(
+                              'Error',
+                              'Unable to open WhatsApp.',
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                  onTap: () => Get.to(() => const BootAnalysisWebView()),
                 ),
-                SizedBox(height: 10.h),
-                _buildFloatingLabelButton(
-                  heroTag: 'whatsapp-button',
-                  label: 'واتساب',
-                  backgroundColor: const Color.fromARGB(255, 20, 171, 75),
-                  icon: const FaIcon(
-                    FontAwesomeIcons.whatsapp,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                  onTap: () async {
-                    const whatsappNumber = '201013770998';
-                    final whatsappUrl = 'https://wa.me/$whatsappNumber';
-                    if (await canLaunchUrlString(whatsappUrl)) {
-                      await launchUrlString(whatsappUrl);
-                    } else {
-                      Get.snackbar(
-                        'Error',
-                        'Unable to open WhatsApp.',
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           bottomNavigationBar: Container(
             height: 68.h,

@@ -153,7 +153,7 @@ class OnboardingView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(14.r),
                               ),
                               padding: EdgeInsets.symmetric(
-                                  vertical: 8.h, horizontal: 16.w),
+                                  vertical: 6.h, horizontal: 16.w),
                             ),
                             child: Text(
                               "السابق",
@@ -184,7 +184,7 @@ class OnboardingView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(14.r),
                             ),
                             padding: EdgeInsets.symmetric(
-                                vertical: 8.h, horizontal: 16.w),
+                                vertical: 6.h, horizontal: 16.w),
                           ),
                           child: Text(
                             isLastPage ? "ابدأ الآن" : "التالي",

@@ -49,7 +49,7 @@ class _DriveVideoPlayerState extends State<DriveVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.scaffoldBackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,30 +65,30 @@ class _DriveVideoPlayerState extends State<DriveVideoPlayer> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: FlickVideoPlayer(
-                flickManager: _flickManager,
-                flickVideoWithControls: FlickVideoWithControls(
-                  iconThemeData: IconThemeData(
-                    color: AppColors.primaryColor, // Change icon color
-                  ),
-                  controls: FlickPortraitControls(
-                    // : Colors.blue, // Change icon color
-                    progressBarSettings: FlickProgressBarSettings(
-                      playedColor: AppColors
-                          .primaryColor, // Change progress bar played color
-                      handleColor: AppColors
-                          .primaryColor, // Change progress bar handle color
-                      backgroundColor: const Color.fromARGB(255, 164, 164,
-                          164), // Change progress bar background color
-                      bufferedColor: const Color.fromARGB(
-                          255, 219, 219, 219), // Change buffered color
+                  flickManager: _flickManager,
+                  flickVideoWithControls: FlickVideoWithControls(
+                    iconThemeData: IconThemeData(
+                      color: AppColors.primaryColor, // Change icon color
+                    ),
+                    controls: FlickPortraitControls(
+                      // : Colors.blue, // Change icon color
+                      progressBarSettings: FlickProgressBarSettings(
+                        playedColor: AppColors
+                            .primaryColor, // Change progress bar played color
+                        handleColor: AppColors
+                            .primaryColor, // Change progress bar handle color
+                        backgroundColor: const Color.fromARGB(255, 164, 164,
+                            164), // Change progress bar background color
+                        bufferedColor: const Color.fromARGB(
+                            255, 219, 219, 219), // Change buffered color
+                      ),
+                    ),
+                    textStyle: TextStyle(
+                      color: AppColors.primaryColor, // Change timer text color
+                      fontSize: 12, // Optional: Adjust font size
                     ),
                   ),
-                  textStyle: TextStyle(
-                    color: AppColors.primaryColor, // Change timer text color
-                    fontSize: 12, // Optional: Adjust font size
-                  ),
                 ),
-              ),
               ),
             ),
           ],
